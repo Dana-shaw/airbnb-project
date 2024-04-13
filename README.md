@@ -287,7 +287,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: api/users/current/spots
+  * URL: api/spots/current
   * Body: none
 
 * Successful Response
@@ -466,7 +466,7 @@ Create and return a new image for a spot specified by id.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: POST
-  * URL: api/spots/:spotId/images
+  * URL: api/spots/:spotId/spotImages
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -634,7 +634,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: api/users/current/reviews
+  * URL: api/reviews/current
   * Body: none
 
 * Successful Response
@@ -982,7 +982,7 @@ Return all the bookings that the current user has made.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: api/users/current/bookings
+  * URL: api/bookings/current
   * Body: none
 
 * Successful Response
@@ -1390,7 +1390,7 @@ Return spots filtered by query parameters.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: api/spots?page=1&size=20
+  * URL: api/spots?page=&size=
   * Query Parameters
     * page: integer, minimum: 1, default: 1
     * size: integer, minimum: 1, maximum: 20, default: 20
