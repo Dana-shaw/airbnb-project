@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
@@ -26,13 +27,13 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "per-env": "^1.0.2",
+    "pg": "^8.11.5",
     "sequelize": "^6.37.2",
-    "sequelize-cli": "^6.6.2",
-    "pg": "^8.11.5"
+    "sequelize-cli": "^6.6.2"
   },
   "devDependencies": {
-    "sqlite3": "^5.1.6",
     "dotenv-cli": "^5.1.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "sqlite3": "^5.1.6"
   }
 }
