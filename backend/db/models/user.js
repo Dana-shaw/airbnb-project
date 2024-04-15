@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [4, 30],
         isNotEmail(value) {
-          if(Validator.isEmail(value)) {
+          if (Validator.isEmail(value)) {
             throw new Error("Cannot be an email.")
           }
         }
@@ -46,6 +46,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    defaultScope: {
+      attributes: {
+        exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+      }
+    }
   });
   return User;
 };
