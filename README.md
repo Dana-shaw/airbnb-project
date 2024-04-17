@@ -1,4 +1,4 @@
-# `Placeholder Name`
+# `getaway`
 
 ## Database Schema Design
 
