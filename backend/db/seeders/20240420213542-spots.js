@@ -53,6 +53,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Spots', { name: spots.map(spot => spot) }, {});
+    options.tableName = 'Spots';
+    await queryInterface.bulkDelete(options, { name: spots.map(spot => spot) }, {});
   }
 };
