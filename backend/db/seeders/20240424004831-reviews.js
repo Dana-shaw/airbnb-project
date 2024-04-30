@@ -9,37 +9,37 @@ if (process.env.NODE_ENV === 'production') {
 
 const reviews = [
   {
-    userId: 5,
+    userId: 3,
     spotId: 1,
     review: 'The home was cute and cozy. We loved our stay here!',
     stars: 5
   },
   {
-    userId: 5,
+    userId: 3,
     spotId: 2,
     review: 'Within walking distance of the beach, very convenient!',
     stars: 4
   },
   {
-    userId: 5,
+    userId: 3,
     spotId: 3,
     review: 'The location and place were great, but it rained a lot while we were here.',
     stars: 3
   },
   {
-    userId: 4,
+    userId: 2,
     spotId: 1,
     review: 'We enjoyed our stay',
     stars: 4
   },
   {
-    userId: 4,
+    userId: 2,
     spotId: 2,
     review: 'Great',
     stars: 4
   },
   {
-    userId: 4,
+    userId: 2,
     spotId: 3,
     review: 'Very accomodating. Good location.',
     stars: 4
