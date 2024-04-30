@@ -190,11 +190,69 @@ router.post('/', validateSpot, async (req, res) => {
 })
 
 router.post('/:spotId/images', async (req, res) => {
+    const { spotId } = req.params
+    const { url, preview } = req.body
+    const spot = await Spot.findByPk(spotId)
+    if(!spot){
+        res.status(404);
+        return res.json({ message: "Spot couldn't be found" });
+    }
+    const image = await spot.createSpotImage({ url, preview })
 
+    return res.status(200).json({id: image.id, url: image.url, preview: image.preview})
 })
 
-router.put('/:spotId', async (req, res) => {
+router.put('/:spotId', validateSpot, async (req, res) => {
+    const { spotId } = req.params
+    const { address, city, state, country, lat, lng, name, description, price } = req.body
 
+    if (lat < -90 && lat > 90) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: 'Latitude must be within -90 and 90' }
+            ]
+        });
+    }
+
+    if (lng < -180 && lng > 180) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: 'Longitude must be within -180 and 180' }
+            ]
+        });
+    }
+
+    if (price && price < 0) {
+        res.status(400);
+        return res.json({
+            errors: [
+                { message: 'Price per day must be a positive number' }
+            ]
+        });
+    }
+    const spot = await Spot.findByPk(spotId)
+
+    if(!spot){
+        res.status(404);
+        return res.json({ message: "Spot couldn't be found" });
+    }
+
+    const updateSpot = await spot.update({
+        id: spotId,
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+    })
+
+    return res.status(200).json(updateSpot)
 })
 
 router.delete('/:spotId', async (req, res) => {
