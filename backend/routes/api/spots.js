@@ -2,7 +2,7 @@ const express = require('express')
 const { Op } = require('sequelize');
 
 
-const { Spot, Review, SpotImage, User } = require('../../db/models');
+const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -262,8 +262,76 @@ router.delete('/:spotId', async (req, res) => {
     return res.status(200).json({ "message": "Successfully deleted" })
 })
 
+router.get('/:spotId/reviews', async (req, res) => {
+    const {spotId} = req.params
+    
+    let reviews = await Review.findAll({
+        where: {
+            spotId: spotId
+        },
+        include: [
+            {
+                model: User,
+                attributes: {
+                    exclude: ['username', 'email', 'hashedPassword', 'createdAt', 'updatedAt']
+                }
+            }, {
+                model: ReviewImage,
+                attributes: {
+                    exclude: ['reviewId', 'createdAt', 'updatedAt']
+                }
+            }]
+    })
 
+    if(!reviews[0]){
+        res.status(404);
+        return res.json({ message: "Spot couldn't be found" });
+    }
+    
+    
+    return res.status(200).json({ 'Reviews': reviews })
+})
 
+router.post('/:spotId/reviews', async (req, res) => {
+    const {spotId} = req.params
+    const {userId, review, stars} = req.body
+    const { user } = req
+    if (user) {
+        const safeUser = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            username: user.username,
+        };
+    } else {
+        return res.status(400).json({ 'message': 'Must be logged in to create a spot' });
+    }
+
+    const spot = await Spot.findByPk(spotId)
+    if(!spot){
+        res.status(404);
+        return res.json({ message: "Spot couldn't be found" });
+    }
+
+    const existingReview = await Review.findOne({
+        where: {
+            userId: parseInt(user.id),
+            spotId
+        }
+    })
+    if(existingReview){
+        res.status(500);
+        return res.json({ message: "User already has a review for this spot" });
+    }
+
+    const newReview = await spot.createReview({
+        userId: parseInt(user.id),
+        review,
+        stars
+    })
+    return res.status(200).json(newReview)
+})
 
 
 
