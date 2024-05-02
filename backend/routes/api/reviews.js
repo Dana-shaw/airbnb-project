@@ -8,6 +8,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
+//GET All Reviews of Current User
 router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
     const reviews = await Review.findAll({
@@ -48,7 +49,9 @@ router.get('/current', requireAuth, async (req, res) => {
     return res.status(200).json({ 'Reviews': reviews })
 })
 
-router.post('/:reviewId/images', async (req, res) => {
+//POST Add Image to Review by id
+router.post('/:reviewId/images', requireAuth, async (req, res) => {
+    const { user } = req
     const {reviewId} = req.params
     const {url} = req.body
 
@@ -56,6 +59,11 @@ router.post('/:reviewId/images', async (req, res) => {
     if(!review){
         res.status(404);
         return res.json({ message: "Review couldn't be found" });
+    }
+
+    if(review.dataValues.userId !== user.id){
+        res.status(403);
+        return res.json({ message: "Spot must belong to the current user" });
     }
 
     const reviewImgs = await ReviewImage.findAll({
@@ -74,15 +82,22 @@ router.post('/:reviewId/images', async (req, res) => {
     return res.status(200).json({id: newImg.id, url: newImg.url})
 })
 
-router.put('/:reviewId', async (req, res) => {
+//PUT Edit a Review
+router.put('/:reviewId', requireAuth, async (req, res) => {
     const {reviewId} = req.params
     const {review, stars} = req.body
     const { user } = req
 
     const findReview = await Review.findByPk(reviewId)
+
     if(!findReview){
         res.status(404);
         return res.json({ message: "Review couldn't be found" });
+    }
+
+    if(findReview.dataValues.userId !== user.id){
+        res.status(403);
+        return res.json({ message: "Spot must belong to the current user" });
     }
 
     const updateReview = await findReview.update({
@@ -92,14 +107,23 @@ router.put('/:reviewId', async (req, res) => {
     return res.status(200).json(updateReview)
 })
 
-router.delete('/:reviewId', async (req, res) => {
+//DELETE a Review
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+    const { user } = req
     const {reviewId} = req.params
 
     const review = await Review.findByPk(reviewId)
+
     if(!review){
         res.status(404);
         return res.json({ message: "Review couldn't be found" });
     }
+
+    if(review.dataValues.userId !== user.id){
+        res.status(403);
+        return res.json({ message: "Spot must belong to the current user" });
+    }
+
     review.destroy()
     return res.status(200).json({ "message": "Successfully deleted" })
 })
