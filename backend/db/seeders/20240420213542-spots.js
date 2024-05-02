@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const spots = [
   {
-    ownerId: 3,
+    ownerId: 1,
     address: '1982 Sharon Lane',
     city: 'Michigan City',
     state: 'IN',
@@ -21,7 +21,7 @@ const spots = [
     price: 150
   },
   {
-    ownerId: 3,
+    ownerId: 1,
     address: '4392 Marigold Lane',
     city: 'Miami',
     state: 'FL',
@@ -33,7 +33,7 @@ const spots = [
     price: 200
   },
   {
-    ownerId: 3,
+    ownerId: 1,
     address: '603 Khale Street',
     city: 'Charleston',
     state: 'SC',

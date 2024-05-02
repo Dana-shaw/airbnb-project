@@ -5,6 +5,7 @@ const { Op } = require('sequelize');
 const { Spot, Review, SpotImage, User, ReviewImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
@@ -121,19 +122,8 @@ router.get('/', async (req, res) => {
     return res.status(200).json({ 'Spots': spots, page, size })
 })
 
-router.get('/current', async (req, res) => {
+router.get('/current', requireAuth, async (req, res) => {
     const { user } = req
-    if (user) {
-        const safeUser = {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            username: user.username,
-        };
-    } else {
-        return res.status(400).json({ 'message': 'Please log in' });
-    }
 
     let currentSpots = await Spot.findAll({
         where: {
