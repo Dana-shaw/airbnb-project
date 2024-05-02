@@ -32,8 +32,66 @@ const validateSpot = [
 ];
 
 router.get('/', async (req, res) => {
-    let spots = await Spot.findAll()
-    console.log(spots)
+    let { minLat, maxLat, minLng, maxLng, minPrice, maxPrice, page, size } = req.query;
+    page = parseInt(page)
+    size = parseInt(size)
+
+    if(isNaN(page)) page = 1
+    if(isNaN(size)) size = 20
+    if(page < 1){
+        res.status(400);
+        return res.json({ message: "Page must be greater than or equal to 1" });
+    }
+    if(size < 1 || size > 20){
+        res.status(400);
+        return res.json({ message: "Size must be between 1 and 20" });
+    }
+
+    const where = {};
+    if(minLng && (minLng > -180 && minLng < 180)){
+        if(maxLng && (maxLng > -180 && maxLng < 180)){
+            where.lat = {[Op.between]: [minLng, maxLng]}
+        } else {
+            res.status(400);
+            return res.json({ message: "Maximum longitude is invalid" });
+        }
+    } else {
+        res.status(400);
+        return res.json({ message: "Minimum longitude is invalid" });
+    }
+
+    if(minLat && (minLat > -90 && minLat < 90)){
+        if(maxLat && (maxLat > -90 && maxLat < 90)){
+            where.lat = {[Op.between]: [minLat, maxLat]}
+        } else {
+            res.status(400);
+            return res.json({ message: "Maximum latitude is invalid" });
+        }
+    } else {
+        res.status(400);
+        return res.json({ message: "Minimum latitude is invalid" });
+    }
+
+    if(minPrice && minPrice > 0){
+        if(maxPrice && (maxPrice > 0)){
+            where.price = {[Op.between]: [minPrice, maxPrice]}
+        } else {
+            res.status(400);
+            return res.json({ message: "Minimum price must be greater than or equal to 0" });
+        }
+    } else {
+        res.status(400);
+        return res.json({ message: "Maximum price must be greater than or equal to 0" });
+    }
+
+
+
+    let spots = await Spot.findAll({
+        where,
+        limit: size,
+        offset: (page - 1) * size
+    })
+    
     for (let i = 0; i < spots.length; i++) {
         let previewImg = 'previewImage'
         let avgStars = 'avgRating'
@@ -60,7 +118,7 @@ router.get('/', async (req, res) => {
 
         spots[i].dataValues[previewImg] = preview
     }
-    return res.status(200).json({ 'Spots': spots })
+    return res.status(200).json({ 'Spots': spots, page, size })
 })
 
 router.get('/current', async (req, res) => {
