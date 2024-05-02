@@ -130,6 +130,32 @@ router.get('/current', requireAuth, async (req, res) => {
             ownerId: user.id
         }
     })
+
+    for (let i = 0; i < currentSpots.length; i++) {
+        let review = await Review.findAll({
+            where: {
+                spotId: currentSpots[i].dataValues.id
+            }
+        })
+        let count = review.length
+        let sum = await Review.sum('stars', { where: { spotId: currentSpots[i].dataValues.id } })
+        let average = sum / count
+
+        currentSpots[i].dataValues.avgStars = average
+
+        let image = await SpotImage.findOne({
+            attributes: ['url'],
+            where: {
+                spotId: currentSpots[i].dataValues.id,
+                preview: true
+            }
+        })
+
+        let preview = image.dataValues.url
+
+        currentSpots[i].dataValues.previewImg = preview
+    }
+
     return res.status(200).json({ 'Spots': currentSpots })
 })
 
