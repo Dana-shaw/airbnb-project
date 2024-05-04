@@ -31,7 +31,7 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     for(let i = 0; i < reviews.length; i++){
 
-        let spot = await Spot.findByPk({
+        let spot = await Spot.findOne({
             attributes: { exclude: ['description', 'createdAt', 'updatedAt'] },
             where: {
                 id: reviews[i].dataValues.spotId
