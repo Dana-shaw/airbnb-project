@@ -47,10 +47,6 @@ router.get('/current', requireAuth, async (req, res) => {
             }
         })
 
-        if(!image || !image.dataValues){
-            reviews[i].dataValues.Spot.previewImage = 'none'
-        }
-
         reviews[i].dataValues.Spot.previewImage = image.dataValues.url
         
         let reviewImg = await ReviewImage.findAll({
