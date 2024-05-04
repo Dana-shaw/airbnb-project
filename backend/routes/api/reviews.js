@@ -62,7 +62,7 @@ router.get('/current', requireAuth, async (req, res) => {
             }
         })
 
-        if(!reviewImg || !reviewImg.dataValues){
+        if(!reviewImg || !reviewImg[0].dataValues){
             reviews[i].dataValues.Spot.ReviewImages = []
         }
         reviews[i].dataValues.ReviewImages = reviewImg
