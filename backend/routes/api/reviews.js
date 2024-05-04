@@ -49,7 +49,7 @@ router.get('/current', requireAuth, async (req, res) => {
         })
 
         if(!image || !image.dataValues){
-            spots[i].dataValues.previewImage = null
+            reviews[i].dataValues.previewImage = null
         } else {
             reviews[i].dataValues.Spot.previewImage = image.dataValues.url
         }
@@ -62,8 +62,8 @@ router.get('/current', requireAuth, async (req, res) => {
             }
         })
 
-        if(!reviewImg || !reviewImg[0].dataValues){
-            reviews[i].dataValues.Spot.ReviewImages = []
+        if(!reviewImg.dataValues){
+            reviews[i].dataValues.ReviewImages = []
         }
         reviews[i].dataValues.ReviewImages = reviewImg
 

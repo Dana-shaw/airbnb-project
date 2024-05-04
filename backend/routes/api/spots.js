@@ -24,11 +24,11 @@ const validateSpot = [
         .withMessage('Country is required'),
     check('lat')
         .exists({ checkFalsy: true })
-        .isInt({ gt: -90, lt: 90 })
+        .isFloat({ gt: -90, lt: 90 })
         .withMessage('Latitude must be within -90 and 90'),
     check('lng')
         .exists({ checkFalsy: true })
-        .isInt({ gt: -180, lt: 180 })
+        .isFloat({ gt: -180, lt: 180 })
         .withMessage('Longitude must be within -180 and 180'),
     check('name')
         .exists({ checkFalsy: true })
@@ -39,7 +39,7 @@ const validateSpot = [
         .withMessage('Description is required'),
     check('price')
         .exists({ checkFalsy: true })
-        .isInt({ gt: 0 })
+        .isFloat({ gt: 0 })
         .withMessage('Price per day must be a positive number'),
     handleValidationErrors
 ];
@@ -101,38 +101,38 @@ router.get('/', validateFilter, async (req, res) => {
 
     if (isNaN(page)) page = 1
     if (isNaN(size)) size = 20
-    
+
 
     const where = {};
-    
-    if(minLat){
-        where.lat = {[Op.gte]: minLat}
+
+    if (minLat) {
+        where.lat = { [Op.gte]: minLat }
     }
-    if(maxLat){
-        where.lat = {[Op.lte]: maxLat}
+    if (maxLat) {
+        where.lat = { [Op.lte]: maxLat }
     }
-    if(minLat && maxLat){
-        where.lat = {[Op.between]: [minLat, maxLat]}
+    if (minLat && maxLat) {
+        where.lat = { [Op.between]: [minLat, maxLat] }
     }
 
-    if(minLng){
-        where.lng = {[Op.gte]: minLng}
+    if (minLng) {
+        where.lng = { [Op.gte]: minLng }
     }
-    if(maxLng){
-        where.lng = {[Op.lte]: maxLng}
+    if (maxLng) {
+        where.lng = { [Op.lte]: maxLng }
     }
-    if(minLng && maxLng){
-        where.lng = {[Op.between]: [minLng, maxLng]}
+    if (minLng && maxLng) {
+        where.lng = { [Op.between]: [minLng, maxLng] }
     }
 
-    if(minPrice){
-        where.price = {[Op.gte]: minPrice}
+    if (minPrice) {
+        where.price = { [Op.gte]: minPrice }
     }
-    if(maxPrice){
-        where.price = {[Op.lte]: maxPrice}
+    if (maxPrice) {
+        where.price = { [Op.lte]: maxPrice }
     }
-    if(minPrice && maxPrice){
-        where.price = {[Op.between]: [minPrice, maxPrice]}
+    if (minPrice && maxPrice) {
+        where.price = { [Op.between]: [minPrice, maxPrice] }
     }
 
 
@@ -150,16 +150,16 @@ router.get('/', validateFilter, async (req, res) => {
                 spotId: spots[i].dataValues.id
             }
         })
-        
-        if(!review || !review[0].dataValues){
+
+        if (!review.dataValues) {
             spots[i].dataValues.avgRating = null
-        } else {
-            let count = review.length
-            let sum = await Review.sum('stars', { where: { spotId: spots[i].dataValues.id } })
-            let average = sum / count
-            
-            spots[i].dataValues.avgRating = average
         }
+        let count = review.length
+        let sum = await Review.sum('stars', { where: { spotId: spots[i].dataValues.id } })
+        let average = sum / count
+    
+        spots[i].dataValues.avgRating = average
+
 
         let image = await SpotImage.findOne({
             attributes: ['url'],
@@ -168,8 +168,8 @@ router.get('/', validateFilter, async (req, res) => {
                 preview: true
             }
         })
-        
-        if(!image || !image.dataValues){
+
+        if (!image || !image.dataValues) {
             spots[i].dataValues.previewImage = null
         } else {
             spots[i].dataValues.previewImage = image.dataValues.url
