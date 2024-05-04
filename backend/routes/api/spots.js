@@ -145,18 +145,20 @@ router.get('/', validateFilter, async (req, res) => {
     })
 
     for (let i = 0; i < spots.length; i++) {
-        let previewImg = 'previewImage'
-        let avgStars = 'avgRating'
         let review = await Review.findAll({
             where: {
                 spotId: spots[i].dataValues.id
             }
         })
-        let count = review.length
-        let sum = await Review.sum('stars', { where: { spotId: spots[i].dataValues.id } })
-        let average = sum / count
-
-        spots[i].dataValues[avgStars] = average
+        if(!review || !review.dataValues){
+            spots[i].dataValues.avgRating = null
+        } else {
+            let count = review.length
+            let sum = await Review.sum('stars', { where: { spotId: spots[i].dataValues.id } })
+            let average = sum / count
+            
+            spots[i].dataValues.avgRating = average
+        }
 
         let image = await SpotImage.findOne({
             attributes: ['url'],
@@ -165,10 +167,12 @@ router.get('/', validateFilter, async (req, res) => {
                 preview: true
             }
         })
-
-        let preview = image.dataValues.url
-
-        spots[i].dataValues[previewImg] = preview
+        
+        if(!image || !image.dataValues){
+            spots[i].dataValues.previewImage = null
+        } else {
+            spots[i].dataValues.previewImage = image.dataValues.url
+        }
     }
     return res.status(200).json({ 'Spots': spots, page, size })
 })
