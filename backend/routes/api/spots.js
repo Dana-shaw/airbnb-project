@@ -150,7 +150,8 @@ router.get('/', validateFilter, async (req, res) => {
                 spotId: spots[i].dataValues.id
             }
         })
-        if(!review || !review.dataValues){
+        
+        if(!review || !review[0].dataValues){
             spots[i].dataValues.avgRating = null
         } else {
             let count = review.length
