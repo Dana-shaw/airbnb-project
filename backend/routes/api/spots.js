@@ -150,7 +150,7 @@ router.get('/current', requireAuth, async (req, res) => {
         let sum = await Review.sum('stars', { where: { spotId: currentSpots[i].dataValues.id } })
         let average = sum / count
 
-        currentSpots[i].dataValues.avgStars = average
+        currentSpots[i].dataValues.avgRating = average
 
         let image = await SpotImage.findOne({
             attributes: ['url'],
@@ -162,7 +162,7 @@ router.get('/current', requireAuth, async (req, res) => {
 
         let preview = image.dataValues.url
 
-        currentSpots[i].dataValues.previewImg = preview
+        currentSpots[i].dataValues.previewImage = preview
     }
 
     return res.status(200).json({ 'Spots': currentSpots })
@@ -212,7 +212,7 @@ router.get('/:spotId', async (req, res) => {
 
     spot[0].dataValues.Owner = user
 
-    return res.status(200).json(spot)
+    return res.status(200).json(spot[0])
 })
 
 //POST Create a Spot
@@ -260,7 +260,7 @@ router.post('/', requireAuth, validateSpot, async (req, res) => {
         price
     })
 
-    return res.status(200).json(newSpot)
+    return res.status(201).json(newSpot)
 })
 
 //POST Add Image to Spot by id
