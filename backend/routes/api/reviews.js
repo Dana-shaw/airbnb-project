@@ -29,7 +29,6 @@ router.get('/current', requireAuth, async (req, res) => {
         },
         include: {model: User}
     })
-    console.log(reviews)
     for(let i = 0; i < reviews.length; i++){
 
         let spot = await Spot.findOne({
