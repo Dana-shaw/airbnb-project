@@ -31,7 +31,7 @@ router.get('/current', requireAuth, async (req, res) => {
     })
     for(let i = 0; i < reviews.length; i++){
 
-        let spot = await Spot.findOne({
+        let spot = await Spot.findByPk({
             attributes: { exclude: ['description', 'createdAt', 'updatedAt'] },
             where: {
                 id: reviews[i].dataValues.spotId
@@ -46,6 +46,11 @@ router.get('/current', requireAuth, async (req, res) => {
                 preview: true
             }
         })
+
+        if(!image || !image.dataValues){
+            reviews[i].dataValues.Spot.previewImage = 'none'
+        }
+
         reviews[i].dataValues.Spot.previewImage = image.dataValues.url
         
         let reviewImg = await ReviewImage.findAll({
@@ -54,6 +59,10 @@ router.get('/current', requireAuth, async (req, res) => {
                 reviewId: reviews[i].dataValues.id
             }
         })
+
+        if(!reviewImg || !reviewImg.dataValues){
+            reviews[i].dataValues.Spot.ReviewImages = []
+        }
         reviews[i].dataValues.ReviewImages = reviewImg
 
     }

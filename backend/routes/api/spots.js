@@ -24,11 +24,11 @@ const validateSpot = [
         .withMessage('Country is required'),
     check('lat')
         .exists({ checkFalsy: true })
-        .isInt({gt: -90, lt: 90})
+        .isInt({ gt: -90, lt: 90 })
         .withMessage('Latitude must be within -90 and 90'),
     check('lng')
         .exists({ checkFalsy: true })
-        .isInt({gt: -180, lt: 180})
+        .isInt({ gt: -180, lt: 180 })
         .withMessage('Longitude must be within -180 and 180'),
     check('name')
         .exists({ checkFalsy: true })
@@ -39,7 +39,7 @@ const validateSpot = [
         .withMessage('Description is required'),
     check('price')
         .exists({ checkFalsy: true })
-        .isInt({gt: 0})
+        .isInt({ gt: 0 })
         .withMessage('Price per day must be a positive number'),
     handleValidationErrors
 ];
@@ -51,8 +51,44 @@ const validateReview = [
         .withMessage('Review text is required'),
     check('stars')
         .exists({ checkFalsy: true })
-        .isInt({gt: 0, lt: 6})
+        .isInt({ gt: 0, lt: 6 })
         .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+];
+
+const validateFilter = [
+    check('page')
+        .optional()
+        .isInt({ gt: 0 })
+        .withMessage('Page must be greater than or equal to 1'),
+    check('size')
+        .optional()
+        .isInt({ gt: 0, lt: 21 })
+        .withMessage('Size must be between 1 and 20'),
+    check('maxLat')
+        .optional()
+        .isInt({ gt: -90, lt: 90 })
+        .withMessage('Maximum latitude is invalid'),
+    check('minLat')
+        .optional()
+        .isInt({ gt: -90, lt: 90 })
+        .withMessage('Minimum latitude is invalid'),
+    check('maxLng')
+        .optional()
+        .isInt({ gt: -180, lt: 180 })
+        .withMessage('Maximum longitude is invalid'),
+    check('minLng')
+        .optional()
+        .isInt({ gt: -180, lt: 180 })
+        .withMessage('Minimum longitude is invalid'),
+    check('minPrice')
+        .optional()
+        .isInt({ gt: 0 })
+        .withMessage('Minimum price must be greater than or equal to 0'),
+    check('maxPrice')
+        .optional()
+        .isInt({ gt: 0 })
+        .withMessage('Maximum price must be greater than or equal to 0'),
     handleValidationErrors
 ];
 
@@ -65,58 +101,10 @@ router.get('/', async (req, res) => {
 
     if (isNaN(page)) page = 1
     if (isNaN(size)) size = 20
-    if (isNaN(minLat)) minLat = -90
-    if (isNaN(maxLat)) maxLat = 90
-    if (isNaN(minLng)) minLng = -180
-    if (isNaN(maxLng)) maxLng = 180
-    if (isNaN(minPrice)) minPrice = 1
-    if (isNaN(maxPrice)) maxPrice = 999
-
-    if (page < 1) {
-        res.status(400);
-        return res.json({ message: "Page must be greater than or equal to 1" });
-    }
-    if (size < 1 || size > 20) {
-        res.status(400);
-        return res.json({ message: "Size must be between 1 and 20" });
-    }
+    
 
     const where = {};
-    if (minLng && (minLng >= -180 && minLng <= 180)) {
-        if (maxLng && (maxLng >= -180 && maxLng <= 180)) {
-            where.lat = { [Op.between]: [minLng, maxLng] }
-        } else {
-            res.status(400);
-            return res.json({ message: "Maximum longitude is invalid" });
-        }
-    } else {
-        res.status(400);
-        return res.json({ message: "Minimum longitude is invalid" });
-    }
-
-    if (minLat && (minLat >= -90 && minLat <= 90)) {
-        if (maxLat && (maxLat >= -90 && maxLat <= 90)) {
-            where.lat = { [Op.between]: [minLat, maxLat] }
-        } else {
-            res.status(400);
-            return res.json({ message: "Maximum latitude is invalid" });
-        }
-    } else {
-        res.status(400);
-        return res.json({ message: "Minimum latitude is invalid" });
-    }
-
-    if (minPrice && minPrice >= 0) {
-        if (maxPrice && (maxPrice >= 0)) {
-            where.price = { [Op.between]: [minPrice, maxPrice] }
-        } else {
-            res.status(400);
-            return res.json({ message: "Maximum price must be greater than or equal to 0" });
-        }
-    } else {
-        res.status(400);
-        return res.json({ message: "Minimum price must be greater than or equal to 0" });
-    }
+    
 
 
 
