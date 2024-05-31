@@ -3,21 +3,13 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 
-
-function Navigation({ isLoaded }) {
+function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
-  const logout = (e) => {
-    e.preventDefault();
-    dispatch(sessionActions.logout());
-  };
-
   const sessionLinks = sessionUser ? (
-    <>
-      <li>
-        <ProfileButton user={sessionUser} />
-      </li>
-    </>
+    <li>
+      <ProfileButton user={sessionUser} />
+    </li>
   ) : (
     <>
       <li>
