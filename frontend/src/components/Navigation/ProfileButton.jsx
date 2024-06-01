@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { PiUserSquareDuotone } from "react-icons/pi";
+import { FaUserCircle } from "react-icons/fa";
 import * as sessionActions from "../../store/session";
 
 const ProfileButton = ({ user }) => {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
+  const ulRef = useRef();
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
@@ -13,14 +14,18 @@ const ProfileButton = ({ user }) => {
   };
 
   useEffect(() => {
-    const closeMenu = () => {
-      setShowMenu(false);
+    if (!showMenu) return;
+
+    const closeMenu = (e) => {
+      if (ulRef.current && !ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
     };
 
     document.addEventListener("click", closeMenu);
 
     return () => document.removeEventListener("click", closeMenu);
-  }, []);
+  }, [showMenu]);
 
   const logout = (e) => {
     e.preventDefault();
@@ -32,9 +37,9 @@ const ProfileButton = ({ user }) => {
   return (
     <>
       <button onClick={toggleMenu}>
-        <PiUserSquareDuotone />
+        <FaUserCircle />
       </button>
-      <ul className={ulClassName}>
+      <ul className={ulClassName} ref={ulRef}>
         <li>{user.username}</li>
         <li>
           {user.firstName} {user.lastName}
