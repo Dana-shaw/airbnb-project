@@ -20,7 +20,7 @@ const ProfileButton = ({ user }) => {
     if (!showMenu) return;
 
     const closeMenu = (e) => {
-      if (ulRef.current && !ulRef.current.contains(e.target)) {
+      if (!ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
     };
@@ -30,9 +30,12 @@ const ProfileButton = ({ user }) => {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
+  const closeMenu = () => setShowMenu(false);
+
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    closeMenu();
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -59,12 +62,14 @@ const ProfileButton = ({ user }) => {
             <li>
               <OpenModalButton
                 buttonText="Log In"
+                onButtonClick={closeMenu}
                 modalComponent={<LoginFormModal />}
               />
             </li>
             <li>
               <OpenModalButton
                 buttonText="Sign Up"
+                onButtonClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
             </li>
