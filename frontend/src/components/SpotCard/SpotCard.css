@@ -1,0 +1,28 @@
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.spot-card {
+    display: flex;
+    height: 450px;
+    width: 375px;
+    flex-direction: column;
+    flex-shrink: 0;
+    border-radius: 30px;
+    box-shadow: rgba(128, 128, 128, 0.273) 0px 0px 25px;
+}
+
+.spot-location {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.spot-price {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+}
