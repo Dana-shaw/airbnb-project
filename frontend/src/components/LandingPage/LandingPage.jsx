@@ -16,7 +16,7 @@ const LandingPage = () => {
 
     return (
         <div className='card-container'>
-           {Object.values(spots).map((spot) => (
+           {Object.values(spots.spotsList).map((spot) => (
                 <SpotCard key={spot.id} spot={spot} />
            ))}
         </div>

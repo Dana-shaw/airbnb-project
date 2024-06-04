@@ -17,19 +17,20 @@ export const fetchSpots = () => async (dispatch) => {
     }
 }
 
-// const initialState = { spotsList: {}, currentSpot: {}};
-const initialState = {};
+const initialState = { spotsList: {}, currentSpot: {}, ownedSpots: {}};     //normalizing data
+// const initialState = {};
 
 const spotsReducer = (state = initialState, action) => {
     switch (action.type){
         case LOAD_SPOTS:
             // console.log(Object.values(action.payload))
-            const newState = {...state}
+            // const newState = {...state}
+            const spotsList = {}
             action.payload.Spots.forEach((spot) => {
-                newState[spot.id] = spot
+                spotsList[spot.id] = spot
             });
             // console.log(newState)
-            return newState
+            return { ...state, spotsList: { ...spotsList}}
         default:
             return state
     }
