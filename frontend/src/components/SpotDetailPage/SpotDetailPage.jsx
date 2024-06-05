@@ -1,19 +1,31 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { fetchSpot } from "../../store/spots";
-import { useEffect } from "react";
+import SpotDetails from "../SpotDetails";
 import "./SpotDetailPage.css";
 
-const SpotDetailPage = ({ spot }) => {
+const SpotDetailPage = () => {
+  const { spotId } = useParams();
   const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false)
+  //   console.log(spotId)
 
   const spot = useSelector((state) => state.spots);
-  // console.log(spot)
+//   console.log('spot', spot.currentSpot[spotId])
 
   useEffect(() => {
-    dispatch(fetchSpot());
+    dispatch(fetchSpot(spotId))
+    .then(() => setIsLoaded(true))
   }, []);
 
-  return <h1>Spot Detail</h1>;
+  return isLoaded ? (
+    <div>
+      <SpotDetails spot={spot.currentSpot[spotId]} />
+    </div>
+  ) : (
+    <h3>Loading...</h3>
+  );
 };
 
 export default SpotDetailPage;
