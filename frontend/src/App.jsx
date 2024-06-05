@@ -33,13 +33,9 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: "/spots",
-        children: [
-          {
-            path: "/:spotId",
-            element: <SpotDetailPage />,
-          },
-        ],
+        path: "/spots/:spotId",
+        element: <SpotDetailPage />
+        
       },
     ],
   },

@@ -3,8 +3,8 @@ import { NavLink, useParams } from "react-router-dom";
 import "./SpotCard.css";
 
 const SpotCard = ({ spot }) => {
-  console.log(spot);
-  const { id } = useParams()
+//   console.log(spot);
+  spot.id = useParams()
   return (
     <Link to={`/spots/${spot.id}`}>
       <div className="spot-card">
