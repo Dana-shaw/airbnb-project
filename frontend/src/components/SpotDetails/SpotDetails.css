@@ -1,0 +1,51 @@
+.pageÏ {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.spot-images {
+  display: flex;
+  height: 300px;
+  width: 800px;
+}
+
+.preview-true {
+  height: 100%;
+  width: 50%;
+}
+
+.preview-false {
+  height: 25%;
+  width: 25%;
+}
+
+.details-container {
+  display: flex;
+  border-bottom: 2px solid black;
+}
+
+.details-text {
+  padding: 10px;
+}
+
+.callout-container {
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+  width: 280px;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.callout-text {
+  display: flex;
+  padding-left: 10px;
+  padding-right: 10px;
+  justify-content: space-between;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
