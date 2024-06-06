@@ -1,9 +1,24 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchReviews } from "../../store/reviews";
+import ReviewDetails from "../ReviewDetails/ReviewDetails";
 import "./SpotDetails.css";
 
 const SpotDetails = ({ spot }) => {
-  console.log(spot);
-  return (
-    <div>
+  //   console.log(spot);
+  const { spotId } = useParams();
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const reviews = useSelector((state) => state.reviews);
+
+  useEffect(() => {
+    dispatch(fetchReviews(spotId)).then(() => setIsLoaded(true));
+  }, []);
+
+  return isLoaded ? (
+    <div className="page">
       <h2 className="spot-title">{spot.name}</h2>
       <p className="spot-location">
         {spot.city}, {spot.state}, {spot.country}
@@ -27,15 +42,31 @@ const SpotDetails = ({ spot }) => {
         <div className="callout-container">
           <div className="callout-text">
             <p className="callout-price">${spot.price} night</p>
-            <p className="callout-rating">{spot.avgStarRating}</p>
+            <p className="callout-rating">
+              {spot.avgStarRating} ・{" "}
+              {spot.numReviews ? spot.numReviews : "New"}{" "}
+              {spot.numReviews > 1 ? "reviews" : "review"}
+            </p>
           </div>
           <div className="button-container">
-          <button>Reserve</button>
+            <button className="button">Reserve</button>
           </div>
         </div>
       </div>
-      <h3 className="spot-rating">{spot.avgStarRating}</h3>
+      <div>
+        <h3 className="spot-rating">
+          {spot.avgStarRating} ・ {spot.numReviews ? spot.numReviews : "New"}{" "}
+          {spot.numReviews > 1 ? "reviews" : "review"}
+        </h3>
+        <div>
+          {Object.values(reviews.reviewsList).map((review) => (
+            <ReviewDetails key={review.id} review={review} />
+          ))}
+        </div>
+      </div>
     </div>
+  ) : (
+    <h3>Loading...</h3>
   );
 };
 

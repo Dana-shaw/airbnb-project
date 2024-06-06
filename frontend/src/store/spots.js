@@ -14,15 +14,6 @@ const loadSpot = (payload) => ({
     payload
 })
 
-export const getSpotById = (spotId) => async (dispatch) => {
-	const res = await fetch(`/api/pokemon/${spotId}`);
-
-	if (res.ok) {
-		const data = await res.json();
-		// dispatch(addOnePokemon(data));
-	}
-};
-
 export const fetchAllSpots = () => async (dispatch) => {
     const res = await csrfFetch("/api/spots")
     
