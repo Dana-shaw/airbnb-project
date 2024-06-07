@@ -9,13 +9,11 @@ const ReviewDetails = ({ review }) => {
 //   console.log(formattedDate);
 
   return (
-    <div>
-      <div>
-        <h4>{review.User.firstName}</h4>
-        <p>{formattedDate}</p>
-      </div>
-      <div>
-        <p>{review.review}</p>
+    <div className="review-list">
+      <div className="review-container">
+        <h4 className="review-user">{review.User.firstName}</h4>
+        <p className="review-date">{formattedDate}</p>
+        <p className="review-text">{review.review}</p>
       </div>
     </div>
   );

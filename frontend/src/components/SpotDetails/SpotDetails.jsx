@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchReviews } from "../../store/reviews";
 import ReviewDetails from "../ReviewDetails/ReviewDetails";
+import { FaStar } from "react-icons/fa";
 import "./SpotDetails.css";
 
 const SpotDetails = ({ spot }) => {
@@ -10,11 +11,18 @@ const SpotDetails = ({ spot }) => {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [noReviews, setNoReviews] = useState(false);
 
   const reviews = useSelector((state) => state.reviews);
 
   useEffect(() => {
-    dispatch(fetchReviews(spotId)).then(() => setIsLoaded(true));
+    dispatch(fetchReviews(spotId))
+    .catch((error)=> {
+        if(error.status === 404){
+            setNoReviews(true)
+        }
+    })
+    .then(() => setIsLoaded(true));
   }, []);
 
   return isLoaded ? (
@@ -43,9 +51,16 @@ const SpotDetails = ({ spot }) => {
           <div className="callout-text">
             <p className="callout-price">${spot.price} night</p>
             <p className="callout-rating">
-              {spot.avgStarRating} ・{" "}
-              {spot.numReviews ? spot.numReviews : "New"}{" "}
-              {spot.numReviews > 1 ? "reviews" : "review"}
+              <FaStar />
+              {spot.avgStarRating
+                ? Math.round(spot.avgStarRating * 100) / 100
+                : "New"}{" "}
+              {spot.numReviews ? "・" + spot.numReviews : ""}{" "}
+              {spot.numReviews === 0
+                ? ""
+                : spot.numReviews > 1
+                ? "reviews"
+                : "review"}
             </p>
           </div>
           <div className="button-container">
@@ -55,8 +70,16 @@ const SpotDetails = ({ spot }) => {
       </div>
       <div>
         <h3 className="spot-rating">
-          {spot.avgStarRating} ・ {spot.numReviews ? spot.numReviews : "New"}{" "}
-          {spot.numReviews > 1 ? "reviews" : "review"}
+          <FaStar />
+          {spot.avgStarRating
+                ? Math.round(spot.avgStarRating * 100) / 100
+                : "New"}{" "}
+              {spot.numReviews ? "・" + spot.numReviews : ""}{" "}
+          {spot.numReviews === 0
+            ? ""
+            : spot.numReviews > 1
+            ? "reviews"
+            : "review"}
         </h3>
         <div>
           {Object.values(reviews.reviewsList).map((review) => (

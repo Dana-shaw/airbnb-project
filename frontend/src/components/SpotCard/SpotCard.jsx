@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { NavLink, useParams } from "react-router-dom";
+import { FaStar } from "react-icons/fa";
 import "./SpotCard.css";
 
 const SpotCard = ({ spot }) => {
@@ -16,6 +17,7 @@ const SpotCard = ({ spot }) => {
               {spot.city}, {spot.state}
             </h3>
             <h3>
+              <FaStar />
               {spot.avgRating ? Math.round(spot.avgRating * 100) / 100 : "New"}
             </h3>
           </div>
