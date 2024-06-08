@@ -4,6 +4,11 @@
     flex-wrap: wrap;
 }
 
+.image {
+    max-width: 375px;
+    object-fit: fill;
+}
+
 .spot-card {
     display: flex;
     height: 450px;

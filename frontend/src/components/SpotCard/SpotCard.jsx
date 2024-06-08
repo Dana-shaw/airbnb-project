@@ -8,8 +8,8 @@ const SpotCard = ({ spot }) => {
   return (
     <Link key={spot.id} to={`/spots/${spot.id}`}>
       <div className="spot-card">
-        <div>
-          <img src={spot.previewImage} alt={spot.name} />
+        <div className="image-container">
+          <img className="image" src={spot.previewImage} alt={spot.name} />
         </div>
         <div>
           <div className="spot-location">

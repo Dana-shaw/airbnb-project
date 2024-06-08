@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
+import { HiHomeModern } from "react-icons/hi2";
 // import OpenModalButton from "../OpenModalButton";
 // import LoginFormModal from "../LoginFormModal";
 // import SignupFormModal from '../SignupFormModal';
@@ -31,17 +32,26 @@ function Navigation({ isLoaded }) {
   // );
 
   return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      {/* {isLoaded && sessionLinks} */}
-      {isLoaded && (
+    <nav>
+      <ul className="navigation">
         <li>
-          <ProfileButton user={sessionUser} />
+          <div className="logo-container">
+            <HiHomeModern className="logo"/>
+            <NavLink to="/" className={"home"}>
+              Getaway
+            </NavLink>
+          </div>
         </li>
-      )}
-    </ul>
+        {/* {isLoaded && sessionLinks} */}
+        {isLoaded && (
+          <li>
+            <div className="button-container">
+              <ProfileButton user={sessionUser}/>
+            </div>
+          </li>
+        )}
+      </ul>
+    </nav>
   );
 }
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { FaUserCircle } from "react-icons/fa";
+import { HiUserCircle } from "react-icons/hi2";
+import { HiOutlineMenu } from "react-icons/hi";
 import * as sessionActions from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
@@ -43,7 +44,8 @@ const ProfileButton = ({ user }) => {
   return (
     <>
       <button onClick={toggleMenu}>
-        <FaUserCircle />
+        <HiOutlineMenu />
+        <HiUserCircle />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -61,14 +63,14 @@ const ProfileButton = ({ user }) => {
           <>
             <li>
               <OpenModalButton
-                buttonText="Log In"
+                itemText="Log In"
                 onButtonClick={closeMenu}
                 modalComponent={<LoginFormModal />}
               />
             </li>
             <li>
               <OpenModalButton
-                buttonText="Sign Up"
+                itemText="Sign Up"
                 onButtonClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
