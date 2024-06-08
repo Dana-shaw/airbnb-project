@@ -24,7 +24,7 @@ const reviews = [
     userId: 3,
     spotId: 3,
     review: "What a gem of an Airbnb! From the moment we arrived, we felt right at home. The property was stunning, with gorgeous views and plenty of amenities to keep us entertained. The host was friendly and accommodating, making sure we had everything we needed for a comfortable stay. We loved every minute of our time here and can't wait to return!",
-    stars: 3
+    stars: 5
   },
   {
     userId: 2,
@@ -60,25 +60,25 @@ const reviews = [
     userId: 3,
     spotId: 2,
     review: "Our stay at this Airbnb exceeded all expectations! The accommodations were stylish and comfortable, with plenty of space for our group to relax and unwind. The location was perfect for exploring the area, and we appreciated the host's thoughtful recommendations for local attractions and dining options. We couldn't have asked for a better experience and can't wait to return in the future!",
-    stars: 4
+    stars: 5
   },
   {
     userId: 1,
     spotId: 4,
     review: "We had a fantastic stay at this Airbnb! The location was ideal, with easy access to attractions and restaurants. The apartment was clean, comfortable, and well-equipped with everything we needed for a great trip. The host was friendly and communicative, making check-in a breeze. We would definitely stay here again!",
-    stars: 4
+    stars: 5
   },
   {
     userId: 2,
     spotId: 6,
     review: "Our experience at this Airbnb was excellent! The property was exactly as described, with beautiful decor and thoughtful amenities. We appreciated the attention to detail, from the comfortable bedding to the fully stocked kitchen. The location was perfect for exploring the area, and the host provided helpful recommendations for local activities. We can't wait to return!",
-    stars: 4
+    stars: 5
   },
   {
     userId: 1,
     spotId: 8,
     review: "We thoroughly enjoyed our stay at this Airbnb! The space was stylish and comfortable, and the host went above and beyond to ensure we had a wonderful experience. The location was fantastic, within walking distance of shops and restaurants. We especially loved the cozy fireplace and scenic views. Highly recommend this Airbnb to anyone visiting the area!",
-    stars: 4
+    stars: 5
   },
 ]
 

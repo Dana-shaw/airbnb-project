@@ -135,7 +135,7 @@ const spotImages = [
   },
   {
     spotId: 6,
-    url: 'https://www.dailydreamdecor.com/2020/10/a-small-dreamy-new-york-studio-apartment.html',
+    url: 'https://media.architecturaldigest.com/photos/5f6a3ba961c54e9685868c4e/master/w_960,c_limit/KrissyJones_Aug2020-33.jpg',
     preview: true
   },
   {
