@@ -30,7 +30,7 @@ function Navigation({ isLoaded }) {
   //     </li>
   //   </>
   // );
-
+  console.log(sessionUser)
   return (
     <nav>
       <ul className="navigation">
@@ -42,7 +42,12 @@ function Navigation({ isLoaded }) {
             </NavLink>
           </div>
         </li>
-        {/* {isLoaded && sessionLinks} */}
+        {sessionUser ? 
+        <li>
+          <NavLink to="/spots/new">
+            Create a New Spot
+          </NavLink>
+        </li> : ""}
         {isLoaded && (
           <li>
             <div className="button-container">

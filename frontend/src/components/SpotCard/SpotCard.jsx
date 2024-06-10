@@ -4,7 +4,7 @@ import { FaStar } from "react-icons/fa";
 import "./SpotCard.css";
 
 const SpotCard = ({ spot }) => {
-  console.log(spot);
+  // console.log(spot);
   return (
     <Link key={spot.id} to={`/spots/${spot.id}`}>
       <div className="spot-card">

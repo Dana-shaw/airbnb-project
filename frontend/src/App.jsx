@@ -5,6 +5,7 @@ import Navigation from "./components/Navigation";
 import * as sessionActions from "./store/session";
 import LandingPage from "./components/LandingPage";
 import SpotDetailPage from "./components/SpotDetailPage/SpotDetailPage";
+import CreateSpotForm from "./components/CreateSpotForm/CreateSpotForm";
 
 function Layout() {
   const dispatch = useDispatch();
@@ -35,6 +36,11 @@ const router = createBrowserRouter([
       {
         path: "/spots/:spotId",
         element: <SpotDetailPage />
+        
+      },
+      {
+        path: "/spots/new",
+        element: <CreateSpotForm />
         
       },
     ],
