@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createSpot } from "../../store/spots";
 import "./CreateSpotForm.css";
 
 const CreateSpotForm = () => {
@@ -17,13 +20,15 @@ const CreateSpotForm = () => {
   const [imageUrl3, setImageUrl3] = useState("");
   const [imageUrl4, setImageUrl4] = useState("");
   const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const errors = {};
 
-    const imageRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|png)/;
+    const imageRegex = /[^\s]+(.*?).(jpg|jpeg|png|JPG|JPEG|PNG)$/;
 
     if (!country) {
       errors.country = "Country is required";
@@ -67,19 +72,19 @@ const CreateSpotForm = () => {
       errors.previewImageUrl = "Image URL must end in .png, .jpg, or .jpeg";
     }
 
-    if (!imageRegex.test(imageUrl1)) {
+    if (imageUrl1 && !imageRegex.test(imageUrl1)) {
       errors.imageUrl1 = "Image URL must end in .png, .jpg, or .jpeg";
     }
 
-    if (!imageRegex.test(imageUrl2)) {
+    if (imageUrl2 && !imageRegex.test(imageUrl2)) {
       errors.imageUrl2 = "Image URL must end in .png, .jpg, or .jpeg";
     }
 
-    if (!imageRegex.test(imageUrl3)) {
+    if (imageUrl3 && !imageRegex.test(imageUrl3)) {
       errors.imageUrl3 = "Image URL must end in .png, .jpg, or .jpeg";
     }
 
-    if (!imageRegex.test(imageUrl4)) {
+    if (imageUrl4 && !imageRegex.test(imageUrl4)) {
       errors.imageUrl4 = "Image URL must end in .png, .jpg, or .jpeg";
     }
 
@@ -97,13 +102,40 @@ const CreateSpotForm = () => {
       lng,
       description,
       name,
+      price,
+      previewImageUrl,
+      imageUrl1,
+      imageUrl2,
+      imageUrl3,
+      imageUrl4,
     };
+
+    dispatch(createSpot(payload));
+    reset();
+    navigate(`/spots/${payload.id}`);
+  };
+
+  const reset = () => {
+    setCountry("");
+    setAddress("");
+    setCity("");
+    setState("");
+    setLat(0);
+    setLng(0);
+    setDescription("");
+    setName("");
+    setPrice(0);
+    setPreviewImageUrl("");
+    setImageUrl1("");
+    setImageUrl2("");
+    setImageUrl3("");
+    setImageUrl4("");
   };
 
   return (
     <div>
       <h1>Create a new Spot</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="location-container">
           <h3>Where's your place located?</h3>
           <p>
@@ -113,7 +145,7 @@ const CreateSpotForm = () => {
           <div>
             <div>
               <label>Country</label>
-              <span>{errors.country}</span>
+              <span className="errors-ctn">{errors.country}</span>
             </div>
             <input
               type="text"
@@ -125,6 +157,7 @@ const CreateSpotForm = () => {
           <div>
             <div>
               <label>Street Address</label>
+              <span className="errors-ctn">{errors.address}</span>
             </div>
             <input
               type="text"
@@ -136,6 +169,7 @@ const CreateSpotForm = () => {
           <div>
             <div>
               <label>City</label>
+              <span className="errors-ctn">{errors.city}</span>
             </div>
             <input
               type="text"
@@ -146,6 +180,7 @@ const CreateSpotForm = () => {
             <span> , </span>
             <div>
               <label>State</label>
+              <span className="errors-ctn">{errors.state}</span>
             </div>
             <input
               type="text"
@@ -157,19 +192,21 @@ const CreateSpotForm = () => {
           <div>
             <div>
               <label>Latitude</label>
+              <span className="errors-ctn">{errors.lat}</span>
             </div>
             <input
               onChange={(e) => setLat(e.target.value)}
-              value={lat > 0 ? lat : ''}
+              value={lat > 0 ? lat : ""}
               placeholder="Latitude"
             />
             <span> , </span>
             <div>
               <label>Longitude</label>
+              <span className="errors-ctn">{errors.lng}</span>
             </div>
             <input
               onChange={(e) => setLng(e.target.value)}
-              value={lng > 0 ? lng : ''}
+              value={lng > 0 ? lng : ""}
               placeholder="Longitude"
             />
           </div>
@@ -189,12 +226,13 @@ const CreateSpotForm = () => {
             placeholder="Description"
             rows={7}
           ></textarea>
+          <div className="errors-ctn">{errors.description}</div>
         </div>
         <div className="title-container">
           <div>
             <h3>Create a title for your spot</h3>
             <p>
-              Cath guests' attention with a spot title that highlights what
+              Catch guests' attention with a spot title that highlights what
               makes your place special.
             </p>
           </div>
@@ -203,6 +241,7 @@ const CreateSpotForm = () => {
             value={name}
             placeholder="Name of your spot"
           />
+          <div className="errors-ctn">{errors.name}</div>
         </div>
         <div className="price-container">
           <div>
@@ -215,10 +254,11 @@ const CreateSpotForm = () => {
               $
               <input
                 onChange={(e) => setPrice(e.target.value)}
-                value={price > 0 ? price : ''}
+                value={price > 0 ? price : ""}
                 placeholder="Price per night (USD)"
               />
             </span>
+            <div className="errors-ctn">{errors.price}</div>
           </div>
         </div>
         <div className="image-container">
@@ -232,6 +272,7 @@ const CreateSpotForm = () => {
               value={previewImageUrl}
               placeholder="Preview Image URL"
             />
+            <div className="errors-ctn">{errors.previewImageUrl}</div>
           </div>
           <div>
             <input
@@ -239,6 +280,7 @@ const CreateSpotForm = () => {
               value={imageUrl1}
               placeholder="Image URL"
             />
+            <div className="errors-ctn">{errors.imageUrl1}</div>
           </div>
           <div>
             <input
@@ -246,6 +288,7 @@ const CreateSpotForm = () => {
               value={imageUrl2}
               placeholder="Image URL"
             />
+            <div className="errors-ctn">{errors.imageUrl2}</div>
           </div>
           <div>
             <input
@@ -253,6 +296,7 @@ const CreateSpotForm = () => {
               value={imageUrl3}
               placeholder="Image URL"
             />
+            <div className="errors-ctn">{errors.imageUrl3}</div>
           </div>
           <div>
             <input
@@ -260,8 +304,10 @@ const CreateSpotForm = () => {
               value={imageUrl4}
               placeholder="Image URL"
             />
+            <div className="errors-ctn">{errors.imageUrl4}</div>
           </div>
         </div>
+        <button>Create Spot</button>
       </form>
     </div>
   );

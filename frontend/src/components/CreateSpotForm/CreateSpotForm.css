@@ -1,0 +1,7 @@
+.errors-ctn {
+    color: red;
+}
+
+span.errors-ctn {
+    padding-left: 5px;
+}
