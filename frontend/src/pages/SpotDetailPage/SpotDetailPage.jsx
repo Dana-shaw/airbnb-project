@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchSpot } from "../../store/spots";
-import SpotDetails from "../SpotDetails";
+import SpotDetails from "../../components/SpotDetails";
 import "./SpotDetailPage.css";
 
 const SpotDetailPage = () => {

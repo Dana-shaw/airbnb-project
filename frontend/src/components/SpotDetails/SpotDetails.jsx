@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { useParams } from "react-router-dom";
 import { fetchReviews } from "../../store/reviews";
 import ReviewDetails from "../ReviewDetails/ReviewDetails";
 import { FaStar } from "react-icons/fa";
 import "./SpotDetails.css";
+import OpenModalButton from "../OpenModalButton";
+import ReviewFormModal from "../ReviewFormModal/ReviewFormModal";
 
 const SpotDetails = ({ spot }) => {
   //   console.log(spot);
@@ -13,16 +15,58 @@ const SpotDetails = ({ spot }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [noReviews, setNoReviews] = useState(false);
 
+  const [showMenu, setShowMenu] = useState(false);
+  const ulRef = useRef();
+
+  const toggleMenu = (e) => {
+    e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
+    setShowMenu(!showMenu);
+  };
+
+  useEffect(() => {
+    if (!showMenu) return;
+
+    const closeMenu = (e) => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener("click", closeMenu);
+
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
+
+  const closeMenu = () => setShowMenu(false);
+
+
   const reviews = useSelector((state) => state.reviews);
+  const userReviews = useSelector((state) => state.reviews.userReviews);
+  const sessionUser = useSelector((state) => state.session.user);
+
+  //  loop through reviewsList to see if logged in user posted
+
+  // // Create a array of reviews
+  // const reviewsArr = Object.values(reviews.reviewsList).map((review)=> review)
+  // // Loop through the array to see if the user has reviewed the spot
+  // let hasReviewed = false
+  // function checkUserReviews(reviews){
+
+  //   for (const review in reviewsArr){
+  //     if(sessionUser.id === review.id ){
+  //       return true;
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     dispatch(fetchReviews(spotId))
-    .catch((error)=> {
-        if(error.status === 404){
-            setNoReviews(true)
+      .catch((error) => {
+        if (error.status === 404) {
+          setNoReviews(true);
         }
-    })
-    .then(() => setIsLoaded(true));
+      })
+      .then(() => setIsLoaded(true));
   }, []);
 
   return isLoaded ? (
@@ -72,9 +116,9 @@ const SpotDetails = ({ spot }) => {
         <h3 className="spot-rating">
           <FaStar />
           {spot.avgStarRating
-                ? Math.round(spot.avgStarRating * 100) / 100
-                : "New"}{" "}
-              {spot.numReviews ? "・" + spot.numReviews : ""}{" "}
+            ? Math.round(spot.avgStarRating * 100) / 100
+            : "New"}{" "}
+          {spot.numReviews ? "・" + spot.numReviews : ""}{" "}
           {spot.numReviews === 0
             ? ""
             : spot.numReviews > 1
@@ -82,6 +126,24 @@ const SpotDetails = ({ spot }) => {
             : "review"}
         </h3>
         <div>
+          {console.log(userReviews)}
+          {Object.keys(userReviews).length === 0 ? (
+            <OpenModalButton
+              itemText="Leave a Review!"
+              onButtonClick={closeMenu}
+              modalComponent={<ReviewFormModal />}
+            />
+          ) : (
+            Object.values(userReviews).map((review) => {
+              review.spotId !== spotId && (
+                <OpenModalButton
+                  itemText="Leave a Review!"
+                  onButtonClick={closeMenu}
+                  modalComponent={<ReviewFormModal />}
+                />
+              );
+            })
+          )}
           {Object.values(reviews.reviewsList).map((review) => (
             <ReviewDetails key={review.id} review={review} />
           ))}
