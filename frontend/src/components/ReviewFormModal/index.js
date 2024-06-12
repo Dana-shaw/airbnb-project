@@ -1,3 +1,3 @@
-import LoginFormModal from './LoginFormModal';
+import ReviewFormModal from './ReviewFormModal';
 
-export default LoginFormModal;
+export default ReviewFormModal;

@@ -110,9 +110,10 @@ const CreateSpotForm = () => {
       imageUrl4,
     };
 
-    dispatch(createSpot(payload));
+    const newSpot = dispatch(createSpot(payload));
+    console.log("newSpot", newSpot);
     reset();
-    navigate(`/spots/${payload.id}`);
+    navigate(`/api/spots/${newSpot.id}`);
   };
 
   const reset = () => {
@@ -195,6 +196,7 @@ const CreateSpotForm = () => {
               <span className="errors-ctn">{errors.lat}</span>
             </div>
             <input
+              type="text"
               onChange={(e) => setLat(e.target.value)}
               value={lat > 0 ? lat : ""}
               placeholder="Latitude"
@@ -205,6 +207,7 @@ const CreateSpotForm = () => {
               <span className="errors-ctn">{errors.lng}</span>
             </div>
             <input
+              type="text"
               onChange={(e) => setLng(e.target.value)}
               value={lng > 0 ? lng : ""}
               placeholder="Longitude"

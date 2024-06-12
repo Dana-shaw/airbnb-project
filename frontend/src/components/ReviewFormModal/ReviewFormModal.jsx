@@ -2,32 +2,31 @@ import { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import StarRating from "../StarRating";
+import { FaStar } from "react-icons/fa";
 import "./ReviewFormModal.css";
 
 function ReviewFormModal() {
   const dispatch = useDispatch();
   const [review, setReview] = useState("");
-  const [rating, setRating] = useState(null);
-  // const [hover, setHover] = useState(null);
-  // const [totalStars, setTotalStars] = useState(5);
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  const starsArr = [1, 2, 3, 4, 5];
 
   // [...Array(totalStars)].map((star, index) => {
   //   const currentRating = index + 1;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setErrors({});
-    return dispatch()
-      .then(closeModal)
-      .catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        }
-      });
+    // setErrors({});
+
+    const payload = {
+      review,
+      rating,
+    };
+    
+    
   };
 
   return (
@@ -43,8 +42,25 @@ function ReviewFormModal() {
             required
           ></textarea>
         </div>
-        <div>
-          <StarRating />
+        <div className="star-rating">
+          {starsArr.map((star, index) => {
+            index += 1;
+            return (
+              <button
+                type="button"
+                key={index}
+                className={index <= (hover || rating) ? "on" : "off"}
+                onClick={() => setRating(index)}
+                onMouseEnter={() => setHover(index)}
+                onMouseLeave={() => setHover(rating)}
+              >
+                <span className="star">
+                  <FaStar />
+                </span>
+              </button>
+            );
+          })}
+          <span>Stars</span>
         </div>
         <button type="submit">Submit Your Review</button>
       </form>

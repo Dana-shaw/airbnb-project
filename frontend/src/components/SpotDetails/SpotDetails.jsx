@@ -44,20 +44,6 @@ const SpotDetails = ({ spot }) => {
   const userReviews = useSelector((state) => state.reviews.userReviews);
   const sessionUser = useSelector((state) => state.session.user);
 
-  //  loop through reviewsList to see if logged in user posted
-
-  // // Create a array of reviews
-  // const reviewsArr = Object.values(reviews.reviewsList).map((review)=> review)
-  // // Loop through the array to see if the user has reviewed the spot
-  // let hasReviewed = false
-  // function checkUserReviews(reviews){
-
-  //   for (const review in reviewsArr){
-  //     if(sessionUser.id === review.id ){
-  //       return true;
-  //     }
-  //   }
-  // }
 
   useEffect(() => {
     dispatch(fetchReviews(spotId))
@@ -126,7 +112,6 @@ const SpotDetails = ({ spot }) => {
             : "review"}
         </h3>
         <div>
-          {console.log(userReviews)}
           {Object.keys(userReviews).length === 0 ? (
             <OpenModalButton
               itemText="Leave a Review!"
