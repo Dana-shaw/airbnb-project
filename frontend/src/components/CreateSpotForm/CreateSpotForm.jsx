@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { createSpot } from "../../store/spots";
+import { useNavigate, useParams } from "react-router-dom";
+import { createSpot, fetchSpot } from "../../store/spots";
 import "./CreateSpotForm.css";
 
 const CreateSpotForm = () => {
@@ -112,8 +112,9 @@ const CreateSpotForm = () => {
 
     const newSpot = dispatch(createSpot(payload));
     console.log("newSpot", newSpot);
+    navigate(`/spots/${newSpot.spotId}`);
+    dispatch(fetchSpot(newSpot.spotId))
     reset();
-    navigate(`/api/spots/${newSpot.id}`);
   };
 
   const reset = () => {

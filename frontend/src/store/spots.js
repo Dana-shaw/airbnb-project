@@ -19,22 +19,22 @@ const addSpot = (payload) => ({
   payload,
 });
 
+export const fetchSpot = (id) => async (dispatch) => {
+  const res = await csrfFetch(`/api/spots/${id}`);
+  
+  if (res.ok) {
+    const data = await res.json();
+    // console.log(data)
+    dispatch(loadSpot(data));
+  }
+};
+
 export const fetchAllSpots = () => async (dispatch) => {
   const res = await csrfFetch("/api/spots");
 
   if (res.ok) {
     const data = await res.json();
     dispatch(loadAllSpots(data));
-  }
-};
-
-export const fetchSpot = (id) => async (dispatch) => {
-  const res = await csrfFetch(`/api/spots/${id}`);
-
-  if (res.ok) {
-    const data = await res.json();
-    // console.log(data)
-    dispatch(loadSpot(data));
   }
 };
 
@@ -68,9 +68,9 @@ const spotsReducer = (state = initialState, action) => {
       });
       return { ...state, spotsList: { ...spotsList } };
     case ADD_SPOT:
-      const ownedSpots = {}
-      ownedSpots[action.payload.id] = action.payload;
-      return { ...state, ownedSpots: { ...ownedSpots } };
+      const newSpot = []
+      newSpot[action.payload.id] = action.payload;
+      return newSpot;
     default:
       return state;
   }

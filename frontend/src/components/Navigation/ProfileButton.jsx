@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { HiUserCircle } from "react-icons/hi2";
 import { HiOutlineMenu } from "react-icons/hi";
 import * as sessionActions from "../../store/session";
@@ -50,11 +51,12 @@ const ProfileButton = ({ user }) => {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>
+            <li>Hello, {user.username}</li>
+            {/* <li>
               {user.firstName} {user.lastName}
-            </li>
+            </li> */}
             <li>{user.email}</li>
+            <Link to={'/spots/current'}>Manage Spots</Link>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
