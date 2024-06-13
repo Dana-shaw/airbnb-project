@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addSpot, fetchSpot } from "../../store/spots";
+import { createSpot, fetchAllSpots } from "../../store/spots";
 import "./CreateSpotForm.css";
 
 const CreateSpotForm = () => {
@@ -112,20 +112,13 @@ const CreateSpotForm = () => {
       imageUrl4,
     };
 
-    const res = await csrfFetch("/api/spots", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    // console.log(res);
-    if (res.ok) {
-      const data = await res.json();
-      console.log("spot", spot);
-      dispatch({type: "ADD_SPOT", ownedSpots: [...spot, data]});
-      const navRes = await navigate(`/spots/${data.id}`);
-      dispatch(fetchSpot(navRes.id));
-      reset();
-    }
+    const createdSpot = createSpot(payload)
+    const data = await dispatch(createdSpot)
+    console.log(spot[spot.length - 1])
+    dispatch(fetchAllSpots());
+    console.log(spot[spot.length - 1])
+    const navRes = await navigate(`/spots/${spot[spot.length - 1].id}`);
+    // reset();
     // console.log(data);
   };
 

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllSpots } from '../../store/spots';
+import { fetchAllSpots, fetchOwnedSpots } from '../../store/spots';
 import { useEffect } from 'react';
 import SpotCard from '../../components/SpotCard';
 import './LandingPage.css'
@@ -12,6 +12,7 @@ const LandingPage = () => {
 
     useEffect(() => {
         dispatch(fetchAllSpots())
+        .then(() => dispatch(fetchOwnedSpots()))
     }, [])
 
     return (

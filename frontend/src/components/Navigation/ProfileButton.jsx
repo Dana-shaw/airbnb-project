@@ -56,27 +56,24 @@ const ProfileButton = ({ user }) => {
               {user.firstName} {user.lastName}
             </li> */}
             <li>{user.email}</li>
-            <Link to={'/spots/current'}>Manage Spots</Link>
+            <Link to={"/spots/current"}>Manage Spots</Link>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
           </>
         ) : (
           <>
-            <li>
-              <OpenModalButton
-                itemText="Log In"
-                onButtonClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
-            </li>
-            <li>
-              <OpenModalButton
-                itemText="Sign Up"
-                onButtonClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
-            </li>
+            <OpenModalButton
+              itemText="Log In"
+              onButtonClick={closeMenu}
+              modalComponent={<LoginFormModal />}
+            />
+
+            <OpenModalButton
+              itemText="Sign Up"
+              onButtonClick={closeMenu}
+              modalComponent={<SignupFormModal />}
+            />
           </>
         )}
       </ul>
