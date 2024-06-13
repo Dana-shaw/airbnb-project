@@ -30,7 +30,7 @@ function Navigation({ isLoaded }) {
   //     </li>
   //   </>
   // );
-  console.log(sessionUser)
+  // console.log(sessionUser)
   return (
     <nav>
       <ul className="navigation">

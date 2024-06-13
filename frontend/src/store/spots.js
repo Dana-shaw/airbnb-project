@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_ALL_SPOTS = "spots/loadAllSpots";
 const LOAD_SPOT = "spots/loadSpot";
-const ADD_SPOT = "spots/addSpot";
+export const ADD_SPOT = "spots/addSpot";
 
 const loadAllSpots = (payload) => ({
   type: LOAD_ALL_SPOTS,
@@ -14,7 +14,7 @@ const loadSpot = (payload) => ({
   payload,
 });
 
-const addSpot = (payload) => ({
+export const addSpot = (payload) => ({
   type: ADD_SPOT,
   payload,
 });
@@ -38,39 +38,23 @@ export const fetchAllSpots = () => async (dispatch) => {
   }
 };
 
-export const createSpot = (payload) => async (dispatch) => {
-  const res = await csrfFetch("/api/spots", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+// export const createSpot = (payload) => async (dispatch) => {
+  
+// };
 
-  if (res.ok) {
-    const data = await res.json();
-    console.log('data', data)
-    dispatch(addSpot(data));
-    return data;
-  }
-};
-
-const initialState = { spotsList: {}, currentSpot: {}, ownedSpots: {} }; //normalizing data
+const initialState = { spotsList: [], currentSpot: {}, ownedSpots: [] }; //normalizing data
 
 const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
+    //spot detail
     case LOAD_SPOT:
-      const currentSpot = {};
-      currentSpot[action.payload.id] = action.payload;
-      return { ...state, currentSpot: { ...currentSpot } };
+      console.log(action)
+      return { ...state, currentSpot: action.payload };
+    //landing page
     case LOAD_ALL_SPOTS:
-      const spotsList = {};
-      action.payload.Spots.forEach((spot) => {
-        spotsList[spot.id] = spot;
-      });
-      return { ...state, spotsList: { ...spotsList } };
+      return { ...state, spotsList: [ ...action.payload.Spots ] };
     case ADD_SPOT:
-      const newSpot = []
-      newSpot[action.payload.id] = action.payload;
-      return newSpot;
+      return {...state, ownedSpots: [...ownedSpots, action.payload]}
     default:
       return state;
   }

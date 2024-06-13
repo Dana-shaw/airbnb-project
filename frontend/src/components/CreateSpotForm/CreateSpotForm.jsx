@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { createSpot, fetchSpot } from "../../store/spots";
+import { addSpot, fetchSpot } from "../../store/spots";
 import "./CreateSpotForm.css";
 
 const CreateSpotForm = () => {
@@ -23,7 +23,9 @@ const CreateSpotForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const spot = useSelector((state) => state.spots.ownedSpots);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = {};
@@ -110,11 +112,21 @@ const CreateSpotForm = () => {
       imageUrl4,
     };
 
-    dispatch(createSpot(payload))
-    .then(res => navigate(`/spots/${res.id}`))
-
-    .then( res => dispatch(fetchSpot(res.id)));
-    reset();
+    const res = await csrfFetch("/api/spots", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    // console.log(res);
+    if (res.ok) {
+      const data = await res.json();
+      console.log("spot", spot);
+      dispatch({type: "ADD_SPOT", ownedSpots: [...spot, data]});
+      const navRes = await navigate(`/spots/${data.id}`);
+      dispatch(fetchSpot(navRes.id));
+      reset();
+    }
+    // console.log(data);
   };
 
   const reset = () => {

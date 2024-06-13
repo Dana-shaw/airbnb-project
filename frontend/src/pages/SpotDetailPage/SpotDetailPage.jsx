@@ -11,8 +11,8 @@ const SpotDetailPage = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   //   console.log(spotId)
 
-  const spot = useSelector((state) => state.spots);
-//   console.log('spot', spot.currentSpot[spotId])
+  const spot = useSelector((state) => state.spots.currentSpot);
+  console.log('spot', spot)
 
   useEffect(() => {
     dispatch(fetchSpot(spotId))
@@ -21,7 +21,8 @@ const SpotDetailPage = () => {
 
   return isLoaded ? (
     <div>
-      <SpotDetails spot={spot.currentSpot[spotId]} />
+      {console.log(spot.SpotImages)}
+      <SpotDetails  Owner={spot.Owner} SpotImages={spot.SpotImages} avgStarRating={spot.avgStarRating} city={spot.city} country={spot.country} description={spot.description} name={spot.name} numReviews={spot.numReviews} price={spot.price} state={spot.state}  />
     </div>
   ) : (
     <h3>Loading...</h3>

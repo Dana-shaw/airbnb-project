@@ -8,7 +8,7 @@ import "./SpotDetails.css";
 import OpenModalButton from "../OpenModalButton";
 import ReviewFormModal from "../ReviewFormModal/ReviewFormModal";
 
-const SpotDetails = ({ spot }) => {
+const SpotDetails = ({ Owner, SpotImages, avgStarRating, city, country,description, name, numReviews, price, state }) => {
   //   console.log(spot);
   const { spotId } = useParams();
   const dispatch = useDispatch();
@@ -57,12 +57,13 @@ const SpotDetails = ({ spot }) => {
 
   return isLoaded ? (
     <div className="page">
-      <h2 className="spot-title">{spot.name}</h2>
+      <h2 className="spot-title">{name}</h2>
       <p className="spot-location">
-        {spot.city}, {spot.state}, {spot.country}
+        {city}, {state}, {country}
       </p>
       <div className="spot-images">
-        {spot.SpotImages.map((image) => (
+        {/* {console.log(SpotImages)} */}
+        {SpotImages.map((image) => (
           <img
             key={image.id}
             src={image.url}
@@ -73,22 +74,22 @@ const SpotDetails = ({ spot }) => {
       <div className="details-container">
         <div className="details-text">
           <h2 className="spot-host">
-            Hosted by {spot.Owner.firstName} {spot.Owner.lastName}
+            Hosted by {Owner.firstName} {Owner.lastName}
           </h2>
-          <p className="spot-description">{spot.description}</p>
+          <p className="spot-description">{description}</p>
         </div>
         <div className="callout-container">
           <div className="callout-text">
-            <p className="callout-price">${spot.price} night</p>
+            <p className="callout-price">${price} night</p>
             <p className="callout-rating">
               <FaStar />
-              {spot.avgStarRating
-                ? Math.round(spot.avgStarRating * 100) / 100
+              {avgStarRating
+                ? Math.round(avgStarRating * 100) / 100
                 : "New"}{" "}
-              {spot.numReviews ? "・" + spot.numReviews : ""}{" "}
-              {spot.numReviews === 0
+              {numReviews ? "・" + numReviews : ""}{" "}
+              {numReviews === 0
                 ? ""
-                : spot.numReviews > 1
+                : numReviews > 1
                 ? "reviews"
                 : "review"}
             </p>
@@ -101,13 +102,13 @@ const SpotDetails = ({ spot }) => {
       <div>
         <h3 className="spot-rating">
           <FaStar />
-          {spot.avgStarRating
-            ? Math.round(spot.avgStarRating * 100) / 100
+          {avgStarRating
+            ? Math.round(avgStarRating * 100) / 100
             : "New"}{" "}
-          {spot.numReviews ? "・" + spot.numReviews : ""}{" "}
-          {spot.numReviews === 0
+          {numReviews ? "・" + numReviews : ""}{" "}
+          {numReviews === 0
             ? ""
-            : spot.numReviews > 1
+            : numReviews > 1
             ? "reviews"
             : "review"}
         </h3>
