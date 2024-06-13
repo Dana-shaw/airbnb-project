@@ -110,10 +110,10 @@ const CreateSpotForm = () => {
       imageUrl4,
     };
 
-    const newSpot = dispatch(createSpot(payload));
-    console.log("newSpot", newSpot);
-    navigate(`/spots/${newSpot.spotId}`);
-    dispatch(fetchSpot(newSpot.spotId))
+    dispatch(createSpot(payload))
+    .then(res => navigate(`/spots/${res.id}`))
+
+    .then( res => dispatch(fetchSpot(res.id)));
     reset();
   };
 
