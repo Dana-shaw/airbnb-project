@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
-import "./SpotCard.css";
+import "./ManageSpotCard.css";
 
-const SpotCard = ({ spot }) => {
+const ManageSpotCard = ({ spot }) => {
 
   // console.log(spot);
   return (
@@ -31,4 +31,4 @@ const SpotCard = ({ spot }) => {
   );
 };
 
-export default SpotCard;
+export default ManageSpotCard;

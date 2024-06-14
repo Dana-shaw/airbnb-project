@@ -188,7 +188,7 @@ router.get("/current", requireAuth, async (req, res) => {
     },
     include: [SpotImage, Review],
   });
-//   console.log(currentSpots[0].dataValues);
+  // console.log(currentSpots[0].dataValues);
   // return res.json(currentSpots);
   for (let i = 0; i < currentSpots.length; i++) {
     let spot = currentSpots[i].dataValues;
@@ -213,7 +213,7 @@ router.get("/current", requireAuth, async (req, res) => {
     const average = sum / spot.Reviews.length;
     spotResult.avgRating = average;
     const preview = spot.SpotImages.find((image) => image.preview === true);
-    spotResult.previewImage = preview.url;
+    spotResult.previewImage = preview.dataValues.url
 
     Spots.push(spotResult);
   }

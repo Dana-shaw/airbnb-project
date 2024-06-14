@@ -14,9 +14,6 @@ function ReviewFormModal() {
   const { closeModal } = useModal();
   const starsArr = [1, 2, 3, 4, 5];
 
-  // [...Array(totalStars)].map((star, index) => {
-  //   const currentRating = index + 1;
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // setErrors({});
