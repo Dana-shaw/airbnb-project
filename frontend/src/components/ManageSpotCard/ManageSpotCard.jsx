@@ -4,7 +4,7 @@ import "./ManageSpotCard.css";
 
 const ManageSpotCard = ({ spot }) => {
 
-  // console.log(spot);
+  console.log(spot);
   return (
     <Link key={spot.id} to={`/spots/${spot.id}`}>
       <div className="spot-card">

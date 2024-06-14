@@ -80,7 +80,7 @@ const spotsReducer = (state = initialState, action) => {
       return { ...state, spotsList: [...action.payload.Spots] };
     case LOAD_OWNED_SPOTS:
       console.log(action)
-      return { ...state, ownedSpots: [...action.payload] };
+      return { ...state, ownedSpots: [...action.payload.Spots] };
     case ADD_SPOT:
       console.log(state.ownedSpots);
       return { ...state, ownedSpots: [...state.ownedSpots, action.payload] };
