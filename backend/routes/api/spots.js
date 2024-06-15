@@ -188,10 +188,13 @@ router.get("/current", requireAuth, async (req, res) => {
     },
     include: [SpotImage, Review],
   });
-  // console.log(currentSpots[0].dataValues);
-  // return res.json(currentSpots);
-  for (let i = 0; i < currentSpots.length; i++) {
-    let spot = currentSpots[i].dataValues;
+  const currentSpotsData = currentSpots.map((spotData) =>
+    spotData.get({ plain: true })
+  );
+  // console.log("SpotImages",currentSpotsData[0].SpotImages);
+  // console.log(currentSpots.length);
+  for (let i = 0; i < currentSpotsData.length; i++) {
+    let spot = currentSpotsData[i];
     let spotResult = {
       id: spot.id,
       ownerId: spot.ownerId,
@@ -206,18 +209,29 @@ router.get("/current", requireAuth, async (req, res) => {
       createdAt: spot.createdAt,
       updatedAt: spot.updatedAt,
     };
-    let start = 0;
-    const sum = spot.Reviews.map(
-      (review) => (start += review.dataValues.stars)
-    );
-    const average = sum / spot.Reviews.length;
-    spotResult.avgRating = average;
-    const preview = spot.SpotImages.find((image) => image.preview === true);
-    spotResult.previewImage = preview.dataValues.url
+    if (spot.Reviews) {
+      let start = 0;
+      const sum = spot.Reviews.map((review) => (start += review.stars));
+      const average = sum / spot.Reviews.length;
+      spotResult.avgRating = average;
+    } else {
+      spotResult.avgRating = null;
+    }
+    // console.log(spot.SpotImages.preview)
+    if (spot.SpotImages.length > 0) {
+      const preview = spot.SpotImages.filter((image) => image.preview);
+      console.log(preview);
+      // console.log(preview.dataValues)
+      spotResult.previewImage = preview[0].url;
+      // console.log(preview[0])
+    } else {
+      spotResult.previewImage =
+        "https://img.freepik.com/premium-vector/homestay-flat-illustration_120816-36976.jpg";
+    }
 
     Spots.push(spotResult);
   }
-
+  console.log("Spots", Spots);
   return res.status(200).json({ Spots });
 });
 
@@ -271,8 +285,18 @@ router.get("/:spotId", async (req, res) => {
 //POST Create a Spot
 router.post("/", requireAuth, validateSpot, async (req, res) => {
   const { user } = req;
-  const { address, city, state, country, lat, lng, name, description, price } =
-    req.body;
+  const {
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+    previewImageUrl,
+  } = req.body;
 
   const newSpot = await Spot.create({
     ownerId: parseInt(user.id),
@@ -286,8 +310,15 @@ router.post("/", requireAuth, validateSpot, async (req, res) => {
     description,
     price,
   });
+  const newSpotData = newSpot.get({ plain: true });
+  const newSpotImage = await SpotImage.create({
+    spotId: newSpot.id,
+    url: previewImageUrl,
+    preview: true,
+  });
+  const newImageData = newSpotImage.get({ plain: true });
 
-  return res.status(201).json(newSpot);
+  return res.status(201).json({ ...newSpotData, ...newImageData });
 });
 
 //POST Add Image to Spot by id
