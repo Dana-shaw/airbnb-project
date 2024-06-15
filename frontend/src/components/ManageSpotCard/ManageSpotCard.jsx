@@ -1,13 +1,24 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import "./ManageSpotCard.css";
 
 const ManageSpotCard = ({ spot }) => {
+  // console.log(spot);
+  const navigate = useNavigate();
+  
+  const spotDetail = () => {
+    const path = `/spots/${spot.id}`;
+    navigate(path);
+  };
 
-  console.log(spot);
+  const editSpot = (e) => {
+    e.stopPropagation();
+    const path = `/spots/${spot.id}/edit`;
+    navigate(path);
+  };
+
   return (
-    <Link key={spot.id} to={`/spots/${spot.id}`}>
-      <div className="spot-card">
+    <div className="spot-card" onClick={spotDetail}>
         <div className="image-container">
           <img className="image" src={spot.previewImage} alt={spot.name} />
         </div>
@@ -26,9 +37,11 @@ const ManageSpotCard = ({ spot }) => {
             <p>night</p>
           </div>
         </div>
-        <span className="button-container"><button>Update</button><button>Delete</button></span>
-      </div>
-    </Link>
+        <span className="button-container">
+          <button onClick={editSpot}>Update</button>
+          <button>Delete</button>
+        </span>
+    </div>
   );
 };
 

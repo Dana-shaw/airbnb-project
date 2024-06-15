@@ -24,7 +24,6 @@ export const fetchReviews = (spotId) => async (dispatch, getState) => {
 
     if(res.ok){
         const data = await res.json()
-        // console.log(data)
         dispatch(loadReviews(data))
     }
 }
@@ -63,7 +62,7 @@ const initialState = { reviewsList: [], userReviews: []};     //normalizing data
 const reviewsReducer = (state = initialState, action) => {
     switch (action.type){
         case LOAD_REVIEWS:
-            return { ...state, reviewsList: [ ...state.reviewsList, action.payload]}
+            return { ...state, reviewsList: [ action.payload]}
         case ADD_REVIEW:
             return { ...state, userReviews: [ ...state.userReviews, action.payload]}
         case DELETE_REVIEW:

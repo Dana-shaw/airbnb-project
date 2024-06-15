@@ -1,33 +1,64 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import * as reviewActions from "../../store/reviews";
-import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { FaStar } from "react-icons/fa";
 import "./ReviewFormModal.css";
 
+
 function ReviewFormModal({spotId}) {
   const dispatch = useDispatch();
   const [review, setReview] = useState("");
-  const [rating, setRating] = useState(0);
+  const [stars, setStars] = useState(0);
   const [hover, setHover] = useState(0);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const starsArr = [1, 2, 3, 4, 5];
+  
+  // console.log(spotId)
+  const spotReviews = useSelector((state) => state.reviews.reviewsList[0]);
+  const sessionUser = useSelector((state) => state.session.user);
+  // const userReviews = useSelector((state) => state.reviews.userReviews);
+  // console.log(spotReviews.Reviews)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
 
     const payload = {
       review,
-      rating,
+      stars,
     };
-    
-    return dispatch(reviewActions.createReview(spotId, payload))
-    .then(closeModal)
-    
-    
+
+    console.log(payload)
+
+    const newReview = await dispatch(
+      reviewActions.createReview(spotId, payload)
+    ).then(closeModal());
+    // return console.log(newReview);
   };
+
+  useEffect(() => {
+    const errors = {};
+
+    const reviewExists = spotReviews.Reviews.find(
+      (review) => review.userId === sessionUser.id
+    );
+
+    if (review.length < 10) {
+      errors.review = "Must be at least 10 characters";
+    }
+
+    if (reviewExists) {
+      errors.review = "Review already exists for this spot";
+    }
+
+    if (!stars) {
+      errors.stars = "Must select star rating";
+    }
+
+    setErrors(errors);
+  }, [review, stars]);
 
   return (
     <>
@@ -43,26 +74,38 @@ function ReviewFormModal({spotId}) {
           ></textarea>
         </div>
         <div className="star-rating">
-          {starsArr.map((star, index) => {
-            index += 1;
+          {starsArr.map((rating, index) => {
+            const currentRating = index + 1;
+
             return (
-              <button
-                type="button"
-                key={index}
-                className={index <= (hover || rating) ? "on" : "off"}
-                onClick={() => setRating(index)}
-                onMouseEnter={() => setHover(index)}
-                onMouseLeave={() => setHover(rating)}
-              >
-                <span className="star">
-                  <FaStar />
+              <label key={index}>
+                <input
+                  type="radio"
+                  name="rating"
+                  value={currentRating}
+                  onChange={() => setStars(currentRating)}
+                />
+                <span
+                  className="star"
+                  style={{
+                    color:
+                      currentRating <= (hover || stars)
+                        ? "#ffc107"
+                        : "#e4e5e9",
+                  }}
+                  onMouseEnter={() => setHover(currentRating)}
+                  onMouseLeave={() => setHover(null)}
+                >
+                 <FaStar />
                 </span>
-              </button>
+              </label>
             );
           })}
           <span>Stars</span>
         </div>
-        <button type="submit">Submit Your Review</button>
+        <button disabled={Object.values(errors).length} type="submit">
+          Submit Your Review
+        </button>
       </form>
     </>
   );

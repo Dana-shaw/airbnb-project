@@ -1,13 +1,18 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import "./SpotCard.css";
 
 const SpotCard = ({ spot }) => {
-
   // console.log(spot);
+  const navigate = useNavigate();
+  
+  const spotDetail = () => {
+    const path = `/spots/${spot.id}`;
+    navigate(path);
+  };
+
   return (
-    <Link key={spot.id} to={`/spots/${spot.id}`}>
-      <div className="spot-card">
+      <div className="spot-card" onClick={spotDetail}>
         <div className="image-container">
           <img className="image" src={spot.previewImage} alt={spot.name} />
         </div>
@@ -27,7 +32,6 @@ const SpotCard = ({ spot }) => {
           </div>
         </div>
       </div>
-    </Link>
   );
 };
 

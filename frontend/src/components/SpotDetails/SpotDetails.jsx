@@ -40,10 +40,10 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
   const closeMenu = () => setShowMenu(false);
 
 
-  const reviews = useSelector((state) => state.reviews);
+  const reviews = useSelector((state) => state.reviews.reviewsList);
   const userReviews = useSelector((state) => state.reviews.userReviews);
   const sessionUser = useSelector((state) => state.session.user);
-
+  console.log(reviews)
 
   useEffect(() => {
     dispatch(fetchReviews(spotId))
@@ -53,7 +53,7 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
         }
       })
       .then(() => setIsLoaded(true));
-  }, []);
+  }, [dispatch, spotId]);
 
   return isLoaded ? (
     <div className="page">
@@ -117,7 +117,7 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
             <OpenModalButton
               itemText="Leave a Review!"
               onButtonClick={closeMenu}
-              modalComponent={<ReviewFormModal />}
+              modalComponent={<ReviewFormModal spotId={spotId}/>}
             />
           ) : sessionUser &&  userReviews.length === 0 ? (
             userReviews.map((review) => {
@@ -130,7 +130,7 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
               );
             })
           ): <></>}
-          {reviews.reviewsList.map((review) => (
+          {reviews.map((review) => (
             <ReviewDetails key={review.id} review={review} />
           ))}
         </div>
