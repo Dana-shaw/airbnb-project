@@ -7,8 +7,8 @@ import "./ManageSpotsPage.css";
 const ManageSpotsPage = () => {
   const dispatch = useDispatch();
 
-  const manageSpots = useSelector((state) => state.spots);
-  // console.log(spots)
+  const manageSpots = useSelector((state) => state.spots.ownedSpots);
+  console.log(manageSpots)
 
   useEffect(() => {
     dispatch(fetchOwnedSpots());
@@ -17,7 +17,7 @@ const ManageSpotsPage = () => {
   return (
     <div className="card-container">
       <h2>Manage Your Spots</h2>
-      {manageSpots.ownedSpots.map((spot) => (
+      {manageSpots.map((spot) => (
         <ManageSpotCard key={spot.id} spot={spot} />
       ))}
     </div>

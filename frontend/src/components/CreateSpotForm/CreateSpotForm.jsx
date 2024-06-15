@@ -111,12 +111,12 @@ const CreateSpotForm = () => {
       imageUrl3,
       imageUrl4,
     };
+    console.log(payload)
 
     const createdSpot = createSpot(payload)
     const data = await dispatch(createdSpot)
-    console.log(spot[spot.length - 1])
     dispatch(fetchAllSpots());
-    console.log(spot[spot.length - 1])
+    // console.log(data)
     const navRes = await navigate(`/spots/${spot[spot.length - 1].id}`);
     // reset();
     // console.log(data);

@@ -18,7 +18,7 @@ const SpotCard = ({ spot }) => {
             </h3>
             <h3>
               <FaStar />
-              {spot.avgRating ? Math.round(spot.avgRating * 100) / 100 : "New"}
+              {spot.avgRating ? spot.avgRating.toPrecision(2) : "New"}
             </h3>
           </div>
           <div className="spot-price">

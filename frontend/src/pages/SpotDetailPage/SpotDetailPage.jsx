@@ -22,7 +22,7 @@ const SpotDetailPage = () => {
   return isLoaded ? (
     <div>
       {console.log(spot.SpotImages)}
-      <SpotDetails  Owner={spot.Owner} SpotImages={spot.SpotImages} avgStarRating={spot.avgStarRating} city={spot.city} country={spot.country} description={spot.description} name={spot.name} numReviews={spot.numReviews} price={spot.price} state={spot.state}  />
+      <SpotDetails  Owner={spot.Owner} ownerId={spot.ownerId} SpotImages={spot.SpotImages} avgStarRating={spot.avgStarRating} city={spot.city} country={spot.country} description={spot.description} name={spot.name} numReviews={spot.numReviews} price={spot.price} state={spot.state}  />
     </div>
   ) : (
     <h3>Loading...</h3>

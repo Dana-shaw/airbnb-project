@@ -1,11 +1,11 @@
 import { useState } from "react";
-import * as sessionActions from "../../store/session";
+import * as reviewActions from "../../store/reviews";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { FaStar } from "react-icons/fa";
 import "./ReviewFormModal.css";
 
-function ReviewFormModal() {
+function ReviewFormModal({spotId}) {
   const dispatch = useDispatch();
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
@@ -16,12 +16,15 @@ function ReviewFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setErrors({});
+    setErrors({});
 
     const payload = {
       review,
       rating,
     };
+    
+    return dispatch(reviewActions.createReview(spotId, payload))
+    .then(closeModal)
     
     
   };

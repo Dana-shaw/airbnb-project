@@ -8,7 +8,7 @@ import "./SpotDetails.css";
 import OpenModalButton from "../OpenModalButton";
 import ReviewFormModal from "../ReviewFormModal/ReviewFormModal";
 
-const SpotDetails = ({ Owner, SpotImages, avgStarRating, city, country,description, name, numReviews, price, state }) => {
+const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country, description, name, numReviews, price, state }) => {
   //   console.log(spot);
   const { spotId } = useParams();
   const dispatch = useDispatch();
@@ -113,14 +113,14 @@ const SpotDetails = ({ Owner, SpotImages, avgStarRating, city, country,descripti
             : "review"}
         </h3>
         <div>
-          {Object.keys(userReviews).length === 0 ? (
+          {sessionUser &&  sessionUser.id !== ownerId ? (
             <OpenModalButton
               itemText="Leave a Review!"
               onButtonClick={closeMenu}
               modalComponent={<ReviewFormModal />}
             />
-          ) : (
-            Object.values(userReviews).map((review) => {
+          ) : sessionUser &&  userReviews.length === 0 ? (
+            userReviews.map((review) => {
               review.spotId !== spotId && (
                 <OpenModalButton
                   itemText="Leave a Review!"
@@ -129,8 +129,8 @@ const SpotDetails = ({ Owner, SpotImages, avgStarRating, city, country,descripti
                 />
               );
             })
-          )}
-          {Object.values(reviews.reviewsList).map((review) => (
+          ): <></>}
+          {reviews.reviewsList.map((review) => (
             <ReviewDetails key={review.id} review={review} />
           ))}
         </div>
