@@ -382,7 +382,8 @@ router.put("/:spotId", requireAuth, validateSpot, async (req, res) => {
 router.delete("/:spotId", requireAuth, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
-  const spot = await Spot.findByPk(spotId);
+  const spot = await Spot.findOne({where: {id: spotId}});
+  console.log(spot)
 
   if (!spot) {
     res.status(404);
@@ -394,8 +395,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
     return res.json({ message: "Spot must belong to the current user" });
   }
 
-  spot.destroy();
-
+  await spot.destroy();
   return res.status(200).json({ message: "Successfully deleted" });
 });
 
