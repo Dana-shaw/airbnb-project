@@ -1,32 +1,25 @@
 import { useState } from "react";
-import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { FaStar } from "react-icons/fa";
+import { removeSpot } from "../../store/spots";
 import "./DeleteSpotModal.css";
 
-function DeleteSpotModal() {
+function DeleteSpotModal({id}) {
   const dispatch = useDispatch();
-  const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setErrors({});
-
-    const payload = {
-
-    };
-    
-    
+    dispatch(removeSpot(id))
+    closeModal()
   };
 
   return (
     <>
       <h1>Confirm Delete</h1>
       <form onSubmit={handleSubmit}>
-        <button type="submit">Yes (Delete Spot)</button>
-        <button type="submit">No (Keep Spot)</button>
+        <button type="submit" onClick={handleSubmit}>Yes (Delete Spot)</button>
+        <button type="submit" onClick={closeModal}>No (Keep Spot)</button>
       </form>
     </>
   );

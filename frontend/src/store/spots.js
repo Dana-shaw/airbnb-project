@@ -4,6 +4,7 @@ const LOAD_ALL_SPOTS = "spots/loadAllSpots";
 const LOAD_OWNED_SPOTS = "spots/loadOwnedSpots";
 const LOAD_SPOT = "spots/loadSpot";
 const ADD_SPOT = "spots/addSpot";
+const REMOVE_SPOT = "spots/removeSpot";
 
 const loadAllSpots = (payload) => ({
   type: LOAD_ALL_SPOTS,
@@ -22,6 +23,11 @@ const loadSpot = (payload) => ({
 
 export const addSpot = (payload) => ({
   type: ADD_SPOT,
+  payload,
+});
+
+export const removeSpot = (payload) => ({
+  type: REMOVE_SPOT,
   payload,
 });
 
@@ -67,23 +73,35 @@ export const createSpot = (payload) => async (dispatch, getState) => {
   }
 };
 
+export const deleteSpot = (id) => async (dispatch) => {
+  console.log(id)
+  const res = await csrfFetch(`/api/spots/${id}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json"}
+  })
+  dispatch(removeSpot(id))
+}
+
 const initialState = { spotsList: [], currentSpot: {}, ownedSpots: [] }; //normalizing data
 
 const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
     //spot detail
     case LOAD_SPOT:
-      console.log(action);
+      // console.log(action);
       return { ...state, currentSpot: action.payload };
     //landing page
     case LOAD_ALL_SPOTS:
       return { ...state, spotsList: [...action.payload.Spots] };
     case LOAD_OWNED_SPOTS:
-      console.log(action)
+      // console.log(action)
       return { ...state, ownedSpots: [...action.payload.Spots] };
     case ADD_SPOT:
-      console.log(state.ownedSpots);
+      // console.log(state.ownedSpots);
       return { ...state, ownedSpots: [...state.ownedSpots, action.payload] };
+    case REMOVE_SPOT:
+      // console.log(action.payload);
+      return {...state, spotsList: [...state.spotsList.filter(spot => spot.id !== action.payload)], ownedSpots: [...state.ownedSpots.filter(spot => spot.id !== action.payload)]}
     default:
       return state;
   }

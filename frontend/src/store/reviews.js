@@ -14,9 +14,9 @@ const addReview = (payload) => ({
     payload
 })
 
-const removeReview = (index) => ({
+const removeReview = (payload) => ({
     type: DELETE_REVIEW,
-    payload: index
+    payload
 })
 
 export const fetchReviews = (spotId) => async (dispatch, getState) => {
