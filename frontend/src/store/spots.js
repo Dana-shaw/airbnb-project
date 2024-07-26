@@ -1,9 +1,8 @@
 import { csrfFetch } from "./csrf";
 
 const LOAD_ALL_SPOTS = "spots/loadAllSpots";
-const LOAD_OWNED_SPOTS = "spots/loadOwnedSpots";
-const LOAD_SPOT = "spots/loadSpot";
-const ADD_SPOT = "spots/addSpot";
+const LOAD_SPOT = "spots/loadSpotDetail";
+// const ADD_SPOT = "spots/addSpot";
 const REMOVE_SPOT = "spots/removeSpot";
 
 const loadAllSpots = (payload) => ({
@@ -11,18 +10,8 @@ const loadAllSpots = (payload) => ({
   payload,
 });
 
-const loadOwnedSpots = (payload) => ({
-  type: LOAD_OWNED_SPOTS,
-  payload,
-});
-
-const loadSpot = (payload) => ({
+const loadSpotDetail = (payload) => ({
   type: LOAD_SPOT,
-  payload,
-});
-
-export const addSpot = (payload) => ({
-  type: ADD_SPOT,
   payload,
 });
 
@@ -31,13 +20,13 @@ export const removeSpot = (payload) => ({
   payload,
 });
 
-export const fetchSpot = (id) => async (dispatch) => {
+export const fetchSpotDetail = (id) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${id}`);
 
   if (res.ok) {
     const data = await res.json();
     // console.log(data)
-    dispatch(loadSpot(data));
+    dispatch(loadSpotDetail(data));
   }
 };
 
@@ -50,14 +39,6 @@ export const fetchAllSpots = () => async (dispatch) => {
   }
 };
 
-export const fetchOwnedSpots = () => async (dispatch) => {
-  const res = await csrfFetch("/api/spots/current");
-
-  if (res.ok) {
-    const data = await res.json();
-    dispatch(loadOwnedSpots(data));
-  }
-};
 
 export const createSpot = (payload) => async (dispatch, getState) => {
   const res = await csrfFetch("/api/spots", {
@@ -69,7 +50,7 @@ export const createSpot = (payload) => async (dispatch, getState) => {
   if (res.ok) {
     const data = await res.json();
     // console.log("spot", spot);
-    dispatch(addSpot(data));
+    dispatch(loadSpotDetail(data));
   }
 };
 
@@ -82,26 +63,29 @@ export const deleteSpot = (id) => async (dispatch) => {
   dispatch(removeSpot(id))
 }
 
-const initialState = { spotsList: [], currentSpot: {}, ownedSpots: [] }; //normalizing data
+const initialState = {}; //normalizing data
 
 const spotsReducer = (state = initialState, action) => {
+  let newState = Object.assign({}, state)
   switch (action.type) {
     //spot detail
-    case LOAD_SPOT:
-      // console.log(action);
-      return { ...state, currentSpot: action.payload };
+    // case LOAD_SPOT:
+    //   // console.log(action);
+    //   return { ...state, currentSpot: action.payload };
     //landing page
     case LOAD_ALL_SPOTS:
-      return { ...state, spotsList: [...action.payload.Spots] };
-    case LOAD_OWNED_SPOTS:
-      // console.log(action)
-      return { ...state, ownedSpots: [...action.payload.Spots] };
-    case ADD_SPOT:
-      // console.log(state.ownedSpots);
-      return { ...state, ownedSpots: [...state.ownedSpots, action.payload] };
+      action.payload.Spots.forEach(spot => newState[spot.id] = spot)
+      delete newState.arr
+      newState.arr = Object.values(newState)
+      return newState
+    case LOAD_SPOT:
+      newState[action.payload.id] = action.payload
+      delete newState.arr
+      newState.arr = Object.values(newState)
+      return newState
     case REMOVE_SPOT:
       // console.log(action.payload);
-      return {...state, spotsList: [...state.spotsList.filter(spot => spot.id !== action.payload)], ownedSpots: [...state.ownedSpots.filter(spot => spot.id !== action.payload)]}
+      return {...state, allSpots: [...state.allSpots.filter(spot => spot.id !== action.payload)], ownedSpots: [...state.ownedSpots.filter(spot => spot.id !== action.payload)]}
     default:
       return state;
   }

@@ -43,7 +43,7 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
   const reviews = useSelector((state) => state.reviews.reviewsList);
   const userReviews = useSelector((state) => state.reviews.userReviews);
   const sessionUser = useSelector((state) => state.session.user);
-  console.log(reviews)
+  // console.log(reviews)
 
   useEffect(() => {
     dispatch(fetchReviews(spotId))
@@ -62,7 +62,6 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
         {city}, {state}, {country}
       </p>
       <div className="spot-images">
-        {/* {console.log(SpotImages)} */}
         {SpotImages.map((image) => (
           <img
             key={image.id}

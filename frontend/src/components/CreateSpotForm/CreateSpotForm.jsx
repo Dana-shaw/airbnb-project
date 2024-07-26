@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { createSpot, fetchAllSpots } from "../../store/spots";
+import { createSpot, fetchSpotDetail } from "../../store/spots";
 import "./CreateSpotForm.css";
 
 const CreateSpotForm = () => {
@@ -23,7 +23,7 @@ const CreateSpotForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const spot = useSelector((state) => state.spots.ownedSpots);
+  const spotDetail = useSelector((state) => state.spots);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -111,13 +111,12 @@ const CreateSpotForm = () => {
       imageUrl3,
       imageUrl4,
     };
-    console.log(payload)
+    
 
-    const createdSpot = createSpot(payload)
-    const data = await dispatch(createdSpot)
-    dispatch(fetchAllSpots());
+    const data = dispatch(createSpot(payload))
+    dispatch(fetchSpotDetail());
     // console.log(data)
-    const navRes = await navigate(`/spots/${spot[spot.length - 1].id}`);
+    navigate(`/spots/${spotDetail.id}`);
     // reset();
     // console.log(data);
   };
