@@ -20,7 +20,7 @@ const ReviewDetails = ({ review }) => {
           <h4>{review.User.firstName}</h4>
           <p>{formattedDate}</p>
           <p>{review.review}</p>
-          {sessionUser.id === review.userId ? <DeleteModalButton itemText="Delete" modalComponent={<DeleteSpotModal id={review.spotId}/>}/> : <></>}
+          {/* {sessionUser.id === review.userId ? <DeleteModalButton itemText="Delete" modalComponent={<DeleteSpotModal id={review.spotId}/>}/> : <></>} */}
         </>
       ))}
     </div>

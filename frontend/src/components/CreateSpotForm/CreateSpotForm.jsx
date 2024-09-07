@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createSpot, fetchSpotDetail } from "../../store/spots";
+import { createSpotImage } from "../../store/images";
 import "./CreateSpotForm.css";
 
 const CreateSpotForm = () => {
@@ -105,18 +106,40 @@ const CreateSpotForm = () => {
       description,
       name,
       price,
-      previewImageUrl,
-      imageUrl1,
-      imageUrl2,
-      imageUrl3,
-      imageUrl4,
     };
     
-
-    const data = dispatch(createSpot(payload))
-    dispatch(fetchSpotDetail());
-    // console.log(data)
-    navigate(`/spots/${spotDetail.id}`);
+    console.log(previewImageUrl)
+    const newSpot = await dispatch(createSpot(payload))
+    // console.log(newSpot)
+    .then((data) => {
+      dispatch(createSpotImage(data.id, {url: previewImageUrl, preview: true}))
+      return data
+    })
+    .then((data) => {
+      if(imageUrl1){
+      dispatch(createSpotImage(data.id, {url: imageUrl1, preview: true}))
+      }
+      return data
+    })
+    .then((data) => {
+      dispatch(createSpotImage(data.id, {url: imageUrl2, preview: true}))
+      return data
+    })
+    .then((data) => {
+      dispatch(createSpotImage(data.id, {url: imageUrl3, preview: true}))
+      return data
+    })
+    .then((data) => {
+      dispatch(createSpotImage(data.id, {url: imageUrl4, preview: true}))
+      return data
+    })
+    // .then(dispatch(createSpotImage(imageUrl1)))
+    // .then(dispatch(createSpotImage(imageUrl2)))
+    // .then(dispatch(createSpotImage(imageUrl3)))
+    // .then(dispatch(createSpotImage(imageUrl4)))
+    // dispatch(fetchSpotDetail());
+    console.log(newSpot)
+    navigate(`/spots/${newSpot.id}`);
     // reset();
     // console.log(data);
   };

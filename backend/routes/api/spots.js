@@ -295,7 +295,7 @@ router.post("/", requireAuth, validateSpot, async (req, res) => {
     name,
     description,
     price,
-    previewImageUrl,
+    // previewImageUrl,
   } = req.body;
 
   const newSpot = await Spot.create({
@@ -311,14 +311,15 @@ router.post("/", requireAuth, validateSpot, async (req, res) => {
     price,
   });
   const newSpotData = newSpot.get({ plain: true });
-  const newSpotImage = await SpotImage.create({
-    spotId: newSpot.id,
-    url: previewImageUrl,
-    preview: true,
-  });
-  const newImageData = newSpotImage.get({ plain: true });
+  // const newSpotImage = await SpotImage.create({
+  //   spotId: newSpot.id,
+  //   url: previewImageUrl,
+  //   preview: true,
+  // });
+  // const newImageData = newSpotImage.get({ plain: true });
 
-  return res.status(201).json({ ...newSpotData, ...newImageData });
+  // return res.status(201).json({ ...newSpotData, ...newImageData });
+  return res.status(201).json({ ...newSpotData });
 });
 
 //POST Add Image to Spot by id
@@ -326,6 +327,7 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
   const { user } = req;
   const { spotId } = req.params;
   const { url, preview } = req.body;
+  console.log(url, preview)
   const spot = await Spot.findByPk(spotId);
   if (!spot) {
     res.status(404);

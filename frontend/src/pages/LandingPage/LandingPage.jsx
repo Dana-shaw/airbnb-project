@@ -7,7 +7,7 @@ import './LandingPage.css'
 const LandingPage = () => {
     const dispatch = useDispatch();
 
-    const spots = useSelector(state => state.spots)
+    const spots = Object.values(useSelector(state => state.spots))
     // console.log(spots)
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const LandingPage = () => {
 
     return (
         <div className='card-container'>
-           {spots.arr.map((spot) => (
+           {spots.map((spot) => (
                 <SpotCard key={spot.id} spot={spot} />
            ))}
         </div>
