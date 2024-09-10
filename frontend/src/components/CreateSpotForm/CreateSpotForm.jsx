@@ -122,15 +122,21 @@ const CreateSpotForm = () => {
       return data
     })
     .then((data) => {
+      if(imageUrl2){
       dispatch(createSpotImage(data.id, {url: imageUrl2, preview: true}))
+      }
       return data
     })
     .then((data) => {
+      if(imageUrl3){
       dispatch(createSpotImage(data.id, {url: imageUrl3, preview: true}))
+      }
       return data
     })
     .then((data) => {
+      if(imageUrl4){
       dispatch(createSpotImage(data.id, {url: imageUrl4, preview: true}))
+      }
       return data
     })
     // .then(dispatch(createSpotImage(imageUrl1)))

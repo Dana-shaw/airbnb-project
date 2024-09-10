@@ -198,6 +198,7 @@ router.get("/current", requireAuth, async (req, res) => {
     let spotResult = {
       id: spot.id,
       ownerId: spot.ownerId,
+      address: spot.address,
       city: spot.city,
       state: spot.state,
       country: spot.country,

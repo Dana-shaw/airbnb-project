@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { removeSpot } from "../../store/spots";
+import { fetchOwnedSpots } from "../../store/spots";
+import { deleteSpot } from "../../store/spots";
 import "./DeleteSpotModal.css";
 
 function DeleteSpotModal({id}) {
@@ -10,7 +11,8 @@ function DeleteSpotModal({id}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(removeSpot(id))
+    dispatch(deleteSpot(id))
+    .then(dispatch(fetchOwnedSpots()))
     closeModal()
   };
 

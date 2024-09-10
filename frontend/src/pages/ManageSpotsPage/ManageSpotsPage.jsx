@@ -1,17 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-// import { fetchOwnedSpots } from "../../store/spots";
+import { fetchOwnedSpots } from "../../store/spots";
 import ManageSpotCard from "../../components/ManageSpotCard";
 import "./ManageSpotsPage.css";
 
 const ManageSpotsPage = () => {
   const dispatch = useDispatch();
 
-  // const manageSpots = useSelector((state) => state.spots.ownedSpots);
+  const manageSpots = Object.values(useSelector((state) => state.spots));
   console.log(manageSpots)
 
   useEffect(() => {
-    // dispatch(fetchOwnedSpots());
+    dispatch(fetchOwnedSpots());
   }, []);
 
   return (

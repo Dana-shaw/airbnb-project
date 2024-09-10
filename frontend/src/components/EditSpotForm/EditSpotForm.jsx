@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateSpot } from "../../store/spots";
+import { createSpotImage } from "../../store/images";
 
 const EditSpotForm = () => {
     const { spotId } = useParams();
-    const ownedSpots = useSelector((state) => state.spots.ownedSpots)
-    const spot = ownedSpots.filter((spot) => spot.id === parseInt(spotId))
-    console.log(spot)
+    const navigate = useNavigate();
+    const spot = Object.values(useSelector((state) => state.spots)).filter((spot) => spot.id === parseInt(spotId))
+    // const spot = ownedSpots.filter((spot) => spot.id === parseInt(spotId))
+    console.log(spot[0])
 
   const [country, setCountry] = useState(spot[0].country);
   const [address, setAddress] = useState(spot[0].address);
@@ -23,7 +26,7 @@ const EditSpotForm = () => {
   const [imageUrl3, setImageUrl3] = useState(spot[0].imageUrl3);
   const [imageUrl4, setImageUrl4] = useState(spot[0].imageUrl4);
   const [errors, setErrors] = useState({});
-//   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 //   const navigate = useNavigate();
 
 //   const spot = useSelector((state) => state.spots.ownedSpots);
@@ -108,20 +111,41 @@ const EditSpotForm = () => {
       description,
       name,
       price,
-      previewImageUrl,
-      imageUrl1,
-      imageUrl2,
-      imageUrl3,
-      imageUrl4,
     };
-    console.log(payload);
+    
+    // console.log(previewImageUrl)
+    const editSpot = await dispatch(updateSpot(spotId, payload))
+    // console.log(editSpot)
+    .then((data) => {
+      dispatch(createSpotImage(data.id, {url: previewImageUrl, preview: true}))
+      return data
+    })
+    .then((data) => {
+      if(imageUrl1){
+      dispatch(createSpotImage(data.id, {url: imageUrl1, preview: true}))
+      }
+      return data
+    })
+    .then((data) => {
+      if(imageUrl2){
+      dispatch(createSpotImage(data.id, {url: imageUrl2, preview: true}))
+      }
+      return data
+    })
+    .then((data) => {
+      if(imageUrl3){
+      dispatch(createSpotImage(data.id, {url: imageUrl3, preview: true}))
+      }
+      return data
+    })
+    .then((data) => {
+      if(imageUrl4){
+      dispatch(createSpotImage(data.id, {url: imageUrl4, preview: true}))
+      }
+      return data
+    })
 
-    // const createdSpot = createSpot(payload);
-    // const data = await dispatch(createdSpot);
-    // dispatch(fetchAllSpots());
-    // // console.log(data)
-    // const navRes = await navigate(`/spots/${spot[spot.length - 1].id}`);
-    // // console.log(data);
+    navigate(`/spots/${editSpot.id}`);
   };
 
   const reset = () => {
@@ -215,7 +239,10 @@ const EditSpotForm = () => {
               <span className="errors-ctn">{errors.lng}</span>
             </div>
             <input
-              type="text"
+              type="number"
+              step="any"
+              min="-180"
+              max="180"
               onChange={(e) => setLng(e.target.value)}
               value={lng > 0 ? lng : ""}
               placeholder="Longitude"
