@@ -5,11 +5,13 @@ import { updateSpot } from "../../store/spots";
 import { createSpotImage } from "../../store/images";
 
 const EditSpotForm = () => {
-    const { spotId } = useParams();
-    const navigate = useNavigate();
-    const spot = Object.values(useSelector((state) => state.spots)).filter((spot) => spot.id === parseInt(spotId))
-    // const spot = ownedSpots.filter((spot) => spot.id === parseInt(spotId))
-    console.log(spot[0])
+  const { spotId } = useParams();
+  const navigate = useNavigate();
+  const spot = Object.values(useSelector((state) => state.spots)).filter(
+    (spot) => spot.id === parseInt(spotId)
+  );
+  // const spot = ownedSpots.filter((spot) => spot.id === parseInt(spotId))
+  console.log(spot[0]);
 
   const [country, setCountry] = useState(spot[0].country);
   const [address, setAddress] = useState(spot[0].address);
@@ -20,16 +22,18 @@ const EditSpotForm = () => {
   const [description, setDescription] = useState(spot[0].description);
   const [name, setName] = useState(spot[0].name);
   const [price, setPrice] = useState(spot[0].price);
-  const [previewImageUrl, setPreviewImageUrl] = useState(spot[0].previewImageUrl);
+  const [previewImageUrl, setPreviewImageUrl] = useState(
+    spot[0].previewImageUrl
+  );
   const [imageUrl1, setImageUrl1] = useState(spot[0].imageUrl1);
   const [imageUrl2, setImageUrl2] = useState(spot[0].imageUrl2);
   const [imageUrl3, setImageUrl3] = useState(spot[0].imageUrl3);
   const [imageUrl4, setImageUrl4] = useState(spot[0].imageUrl4);
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
-//   const spot = useSelector((state) => state.spots.ownedSpots);
+  //   const spot = useSelector((state) => state.spots.ownedSpots);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,9 +78,7 @@ const EditSpotForm = () => {
       errors.price = "Price is required";
     }
 
-    if (!previewImageUrl) {
-      errors.previewImageUrl = "Preview image is required";
-    } else if (!imageRegex.test(previewImageUrl)) {
+    if (previewImageUrl && !imageRegex.test(previewImageUrl)) {
       errors.previewImageUrl = "Image URL must end in .png, .jpg, or .jpeg";
     }
 
@@ -112,38 +114,11 @@ const EditSpotForm = () => {
       name,
       price,
     };
-    
+
     // console.log(previewImageUrl)
     const editSpot = await dispatch(updateSpot(spotId, payload))
-    // console.log(editSpot)
-    .then((data) => {
-      dispatch(createSpotImage(data.id, {url: previewImageUrl, preview: true}))
-      return data
-    })
-    .then((data) => {
-      if(imageUrl1){
-      dispatch(createSpotImage(data.id, {url: imageUrl1, preview: true}))
-      }
-      return data
-    })
-    .then((data) => {
-      if(imageUrl2){
-      dispatch(createSpotImage(data.id, {url: imageUrl2, preview: true}))
-      }
-      return data
-    })
-    .then((data) => {
-      if(imageUrl3){
-      dispatch(createSpotImage(data.id, {url: imageUrl3, preview: true}))
-      }
-      return data
-    })
-    .then((data) => {
-      if(imageUrl4){
-      dispatch(createSpotImage(data.id, {url: imageUrl4, preview: true}))
-      }
-      return data
-    })
+      // console.log(editSpot)
+      
 
     navigate(`/spots/${editSpot.id}`);
   };
@@ -299,53 +274,7 @@ const EditSpotForm = () => {
             <div className="errors-ctn">{errors.price}</div>
           </div>
         </div>
-        <div className="image-container">
-          <div>
-            <h3>Liven up your spot with photos</h3>
-            <p>Submit at least one photo to publish your spot.</p>
-          </div>
-          <div>
-            <input
-              onChange={(e) => setPreviewImageUrl(e.target.value)}
-              value={previewImageUrl}
-              placeholder="Preview Image URL"
-            />
-            <div className="errors-ctn">{errors.previewImageUrl}</div>
-          </div>
-          <div>
-            <input
-              onChange={(e) => setImageUrl1(e.target.value)}
-              value={imageUrl1}
-              placeholder="Image URL"
-            />
-            <div className="errors-ctn">{errors.imageUrl1}</div>
-          </div>
-          <div>
-            <input
-              onChange={(e) => setImageUrl2(e.target.value)}
-              value={imageUrl2}
-              placeholder="Image URL"
-            />
-            <div className="errors-ctn">{errors.imageUrl2}</div>
-          </div>
-          <div>
-            <input
-              onChange={(e) => setImageUrl3(e.target.value)}
-              value={imageUrl3}
-              placeholder="Image URL"
-            />
-            <div className="errors-ctn">{errors.imageUrl3}</div>
-          </div>
-          <div>
-            <input
-              onChange={(e) => setImageUrl4(e.target.value)}
-              value={imageUrl4}
-              placeholder="Image URL"
-            />
-            <div className="errors-ctn">{errors.imageUrl4}</div>
-          </div>
-        </div>
-        <button>Create Spot</button>
+        <button>Update Spot</button>
       </form>
     </div>
   );

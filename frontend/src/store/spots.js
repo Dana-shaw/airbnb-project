@@ -11,6 +11,11 @@ const loadAllSpots = (payload) => ({
   payload,
 });
 
+// const loadOwnedSpots = (payload) => ({
+//   type: LOAD_OWNED_SPOTS,
+//   payload,
+// });
+
 const loadSpotDetail = (payload) => ({
   type: LOAD_SPOT,
   payload,
@@ -21,9 +26,9 @@ const addSpot = (payload) => ({
   payload,
 });
 
-export const removeSpot = (payload) => ({
+export const removeSpot = (id) => ({
   type: REMOVE_SPOT,
-  payload,
+  id,
 });
 
 export const fetchSpotDetail = (id) => async (dispatch) => {
@@ -105,7 +110,7 @@ const spotsReducer = (state = initialState, action) => {
     //   return { ...state, currentSpot: action.payload };
     //landing page
     case LOAD_ALL_SPOTS:
-      newState = {...state}
+      newState = {}
       action.payload.Spots.forEach(spot => newState[spot.id] = spot)
       return newState
     case LOAD_SPOT:
@@ -119,7 +124,8 @@ const spotsReducer = (state = initialState, action) => {
     case REMOVE_SPOT:
       // console.log(action.payload);
       newState = {...state}
-      action.payload.Spots.filter(spot => newState[spot.id] !== action.payload)
+      // action.payload.Spots.filter(spot => newState[spot.id] !== action.payload)
+      delete newState[action.id]
       return newState
     default:
       return state;
