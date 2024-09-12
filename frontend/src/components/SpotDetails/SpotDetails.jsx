@@ -40,9 +40,10 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
   const closeMenu = () => setShowMenu(false);
 
 
-  const reviews = useSelector((state) => state.reviews.reviewsList);
-  const userReviews = useSelector((state) => state.reviews.userReviews);
   const sessionUser = useSelector((state) => state.session.user);
+  const reviews = Object.values(useSelector((state) => state.reviews));
+  const userReviews = reviews.filter((review) => review.userId === sessionUser.id);
+  console.log(reviews)
   // console.log(reviews)
 
   useEffect(() => {
@@ -130,7 +131,7 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
             })
           ): <></>}
           {reviews.map((review) => (
-            <ReviewDetails key={review.id} review={review} />
+            <ReviewDetails key={review.id} review={[review]} />
           ))}
         </div>
       </div>

@@ -5,24 +5,24 @@ import "./ReviewDetails.css";
 
 const ReviewDetails = ({ review }) => {
   console.log(review);
-  const timestamp = review.Reviews[0].createdAt;
+  const timestamp = review[0].createdAt;
   const date = new Date(timestamp);
   const options = { year: "numeric", month: "long" };
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
-  // console.log(formattedDate);
+  console.log(formattedDate);
 
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
     <div className="review-container">
-      {review.Reviews.map((review) => (
+
         <>
-          <h4>{review.User.firstName}</h4>
+          <h4>{review[0].User.firstName}</h4>
           <p>{formattedDate}</p>
-          <p>{review.review}</p>
-          {/* {sessionUser.id === review.userId ? <DeleteModalButton itemText="Delete" modalComponent={<DeleteSpotModal id={review.spotId}/>}/> : <></>} */}
+          <p>{review[0].review}</p>
+          {sessionUser.id === review.userId ? <DeleteModalButton itemText="Delete" modalComponent={<DeleteSpotModal id={review.spotId}/>}/> : <></>}
         </>
-      ))}
+
     </div>
   );
 };
