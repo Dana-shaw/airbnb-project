@@ -113,22 +113,21 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
             : "review"}
         </h3>
         <div>
-          {sessionUser &&  sessionUser.id !== ownerId ? (
+          {sessionUser &&  sessionUser.id !== ownerId && noReviews ? (
             <OpenModalButton
-              itemText="Leave a Review!"
+              itemText="Be the first to post a review!"
               onButtonClick={closeMenu}
               modalComponent={<ReviewFormModal spotId={spotId}/>}
             />
-          ) : sessionUser &&  userReviews.length === 0 ? (
-            userReviews.map((review) => {
-              review.spotId !== spotId && (
-                <OpenModalButton
-                  itemText="Leave a Review!"
-                  onButtonClick={closeMenu}
-                  modalComponent={<ReviewFormModal />}
-                />
-              );
-            })
+          ) : sessionUser &&  sessionUser.id !== ownerId && userReviews.length === 0 ? (
+            // userReviews.map((review) => {
+            //   review.spotId !== spotId 
+            // })
+            <OpenModalButton
+              itemText="Post Your Review"
+              onButtonClick={closeMenu}
+              modalComponent={<ReviewFormModal spotId={spotId}/>}
+            />
           ): <></>}
           {reviews.map((review) => (
             <ReviewDetails key={review.id} review={review} />

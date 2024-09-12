@@ -11,6 +11,14 @@ const ReviewDetails = ({ review }) => {
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
   // console.log(formattedDate);
 
+//   export function formatReleaseDate(date) {
+//     return new Date(date).toLocaleDateString("en-US", {
+//         year: "numeric",
+//         month: "long",
+//         day: "numeric",
+//     });
+// }
+
   const sessionUser = useSelector((state) => state.session.user);
   console.log(sessionUser)
 
@@ -18,7 +26,7 @@ const ReviewDetails = ({ review }) => {
     <div className="review-container">
       {review && (
         <>
-          <h4>{review.User.firstName || sessionUser.firstName}</h4>
+          <h4>{review.User?.firstName || sessionUser.firstName}</h4>
           <p>{formattedDate}</p>
           <p>{review.review}</p>
           {sessionUser.id === review.userId ? (
