@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_REVIEWS = "reviews/loadReviews";
 const ADD_REVIEW = "reviews/addReview";
-const DELETE_REVIEW = "reviews/deleteReview";
+const REMOVE_REVIEW = "reviews/deleteReview";
 
 const loadReviews = (payload) => ({
   type: LOAD_REVIEWS,
@@ -14,9 +14,9 @@ const addReview = (payload) => ({
   payload,
 });
 
-const removeReview = (payload) => ({
-  type: DELETE_REVIEW,
-  payload,
+const removeReview = (id) => ({
+  type: REMOVE_REVIEW,
+  id,
 });
 
 export const fetchReviews = (spotId) => async (dispatch, getState) => {
@@ -39,9 +39,25 @@ export const createReview = (spotId, payload) => async (dispatch) => {
 
   if (res.ok) {
     const data = await res.json();
-    dispatch(addReview(spotId, data));
+    dispatch(addReview(data));
+    return data
   }
 };
+
+export const updateReview = (id, payload) => async (dispatch) => {
+    const res = await csrfFetch(`/api/reviews/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    // console.log(res);
+    if (res.ok) {
+      const data = await res.json();
+      console.log("data", data);
+      dispatch(addReview(data)); 
+      return data
+    }
+  };
 
 export const deleteReview = (reviewId) => async (dispatch) => {
   const res = await csrfFetch(`/api//reviews/${reviewId}`, {
@@ -68,17 +84,15 @@ const reviewsReducer = (state = initialState, action) => {
         (review) => (newState[review.id] = review)
       );
       return newState;
-    // case ADD_REVIEW:
-    //   return { ...state, userReviews: [...state.userReviews, action.payload] };
-    // case DELETE_REVIEW:
-    //   return {
-    //     ...state,
-    //     userReviews: {
-    //       ...state.userReviews.filter(
-    //         (userReview) => userReview.id !== action.payload
-    //       ),
-    //     },
-    //   };
+    case ADD_REVIEW:
+        newState = {...state}
+        console.log(action)
+        newState[action.payload.id] = action.payload
+        return newState
+    case REMOVE_REVIEW:
+      newState = {...state}
+      delete newState[action.id]
+      return newState
     default:
       return state;
   }

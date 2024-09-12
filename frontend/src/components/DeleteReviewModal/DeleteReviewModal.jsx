@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
+import {deleteReview} from "../../store/reviews"
 
-import "./DeleteSpotModal.css";
 
 function DeleteReviewModal({ id }) {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ function DeleteReviewModal({ id }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(removeReview(id));
+    dispatch(deleteReview(id));
     closeModal();
   };
 

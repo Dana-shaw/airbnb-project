@@ -131,7 +131,7 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
             })
           ): <></>}
           {reviews.map((review) => (
-            <ReviewDetails key={review.id} review={[review]} />
+            <ReviewDetails key={review.id} review={review} />
           ))}
         </div>
       </div>

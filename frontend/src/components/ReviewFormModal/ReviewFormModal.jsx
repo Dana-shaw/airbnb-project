@@ -16,8 +16,8 @@ function ReviewFormModal({spotId}) {
   const { closeModal } = useModal();
   const starsArr = [1, 2, 3, 4, 5];
   
-  // console.log(spotId)
-  const spotReviews = useSelector((state) => state.reviews.reviewsList[0]);
+  console.log(review.length)
+  const spotReviews = Object.values(useSelector((state) => state.reviews));
   const sessionUser = useSelector((state) => state.session.user);
   // const userReviews = useSelector((state) => state.reviews.userReviews);
   // console.log(spotReviews.Reviews)
@@ -41,7 +41,7 @@ function ReviewFormModal({spotId}) {
   useEffect(() => {
     const errors = {};
 
-    const reviewExists = spotReviews.Reviews.find(
+    const reviewExists = spotReviews.find(
       (review) => review.userId === sessionUser.id
     );
 
