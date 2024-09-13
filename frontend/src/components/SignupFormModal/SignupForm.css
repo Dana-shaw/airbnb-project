@@ -1,0 +1,19 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.error-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+}
+.submit-button {
+    margin-top: 0.5rem;
+}
