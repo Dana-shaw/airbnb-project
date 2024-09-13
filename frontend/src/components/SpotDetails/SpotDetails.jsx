@@ -42,8 +42,8 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
 
   const sessionUser = useSelector((state) => state.session.user);
   const reviews = Object.values(useSelector((state) => state.reviews));
-  const userReviews = reviews.filter((review) => review.userId === sessionUser.id);
-  console.log(reviews)
+  const userReviews = reviews.filter((review) => review.userId === sessionUser?.id);
+  // console.log(sessionUser)
   // console.log(reviews)
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
             : "review"}
         </h3>
         <div>
-          {sessionUser &&  sessionUser.id !== ownerId && noReviews ? (
+          {sessionUser ? (sessionUser.id !== ownerId && noReviews ? (
             <OpenModalButton
               itemText="Be the first to post a review!"
               onButtonClick={closeMenu}
@@ -128,7 +128,23 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
               onButtonClick={closeMenu}
               modalComponent={<ReviewFormModal spotId={spotId}/>}
             />
-          ): <></>}
+          ): <></>) : <></>}
+          {/* // {sessionUser &&  sessionUser.id !== ownerId && noReviews ? (
+          //   <OpenModalButton
+          //     itemText="Be the first to post a review!"
+          //     onButtonClick={closeMenu}
+          //     modalComponent={<ReviewFormModal spotId={spotId}/>}
+          //   />
+          // ) : sessionUser &&  sessionUser.id !== ownerId && userReviews.length === 0 ? (
+          //   // userReviews.map((review) => {
+          //   //   review.spotId !== spotId 
+          //   // })
+          //   <OpenModalButton
+          //     itemText="Post Your Review"
+          //     onButtonClick={closeMenu}
+          //     modalComponent={<ReviewFormModal spotId={spotId}/>}
+          //   />
+          // ): <></>} */}
           {reviews.map((review) => (
             <ReviewDetails key={review.id} review={review} />
           ))}

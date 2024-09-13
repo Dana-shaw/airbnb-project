@@ -20,7 +20,7 @@ const ReviewDetails = ({ review }) => {
 // }
 
   const sessionUser = useSelector((state) => state.session.user);
-  console.log(sessionUser)
+  // console.log(sessionUser)
 
   return (
     <div className="review-container">
@@ -29,7 +29,7 @@ const ReviewDetails = ({ review }) => {
           <h4>{review.User?.firstName || sessionUser.firstName}</h4>
           <p>{formattedDate}</p>
           <p>{review.review}</p>
-          {sessionUser.id === review.userId ? (
+          {sessionUser?.id === review.userId ? (
             <span>
               <DeleteModalButton
                 itemText="Delete"
