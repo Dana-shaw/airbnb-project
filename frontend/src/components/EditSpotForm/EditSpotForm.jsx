@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateSpot } from "../../store/spots";
-import { createSpotImage } from "../../store/images";
 
 const EditSpotForm = () => {
   const { spotId } = useParams();
@@ -78,25 +77,6 @@ const EditSpotForm = () => {
       errors.price = "Price is required";
     }
 
-    if (previewImageUrl && !imageRegex.test(previewImageUrl)) {
-      errors.previewImageUrl = "Image URL must end in .png, .jpg, or .jpeg";
-    }
-
-    if (imageUrl1 && !imageRegex.test(imageUrl1)) {
-      errors.imageUrl1 = "Image URL must end in .png, .jpg, or .jpeg";
-    }
-
-    if (imageUrl2 && !imageRegex.test(imageUrl2)) {
-      errors.imageUrl2 = "Image URL must end in .png, .jpg, or .jpeg";
-    }
-
-    if (imageUrl3 && !imageRegex.test(imageUrl3)) {
-      errors.imageUrl3 = "Image URL must end in .png, .jpg, or .jpeg";
-    }
-
-    if (imageUrl4 && !imageRegex.test(imageUrl4)) {
-      errors.imageUrl4 = "Image URL must end in .png, .jpg, or .jpeg";
-    }
 
     if (Object.values(errors).length) {
       setErrors(errors);
@@ -123,29 +103,13 @@ const EditSpotForm = () => {
     navigate(`/spots/${editSpot.id}`);
   };
 
-  const reset = () => {
-    setCountry("");
-    setAddress("");
-    setCity("");
-    setState("");
-    setLat(0);
-    setLng(0);
-    setDescription("");
-    setName("");
-    setPrice(0);
-    setPreviewImageUrl("");
-    setImageUrl1("");
-    setImageUrl2("");
-    setImageUrl3("");
-    setImageUrl4("");
-  };
 
   return (
     <div>
       <h1>Create a new Spot</h1>
       <form onSubmit={handleSubmit}>
         <div className="location-container">
-          <h3>Where's your place located?</h3>
+          <h3>Where&apos;s your place located?</h3>
           <p>
             Guests will only get your exact address once they book a
             reservation.
@@ -245,7 +209,7 @@ const EditSpotForm = () => {
           <div>
             <h3>Create a title for your spot</h3>
             <p>
-              Catch guests' attention with a spot title that highlights what
+              Catch guests&apos; attention with a spot title that highlights what
               makes your place special.
             </p>
           </div>

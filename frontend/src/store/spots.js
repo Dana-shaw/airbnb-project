@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_ALL_SPOTS = "spots/loadAllSpots";
 const LOAD_SPOT = "spots/loadSpotDetail";
-const LOAD_OWNED_SPOTS = "spots/loadOwnedSpots";
+// const LOAD_OWNED_SPOTS = "spots/loadOwnedSpots";
 const ADD_SPOT = "spots/addSpot";
 const REMOVE_SPOT = "spots/removeSpot";
 
@@ -96,7 +96,9 @@ export const deleteSpot = (id) => async (dispatch) => {
     method: "DELETE",
     headers: { "Content-Type": "application/json"}
   })
-  dispatch(removeSpot(id))
+  if(res.ok){
+    dispatch(removeSpot(id))
+  }
 }
 
 const initialState = {};

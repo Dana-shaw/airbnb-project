@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import * as reviewActions from "../../store/reviews";
 import { useModal } from "../../context/Modal";
 import { FaStar } from "react-icons/fa";
@@ -35,7 +34,7 @@ function ReviewFormModal({spotId}) {
     const newReview = await dispatch(
       reviewActions.createReview(spotId, payload)
     ).then(closeModal());
-    // return console.log(newReview);
+    console.log(newReview);
   };
 
   useEffect(() => {
@@ -58,7 +57,7 @@ function ReviewFormModal({spotId}) {
     }
 
     setErrors(errors);
-  }, [review, stars]);
+  }, [review, stars, sessionUser.id, spotReviews]);
 
   return (
     <>

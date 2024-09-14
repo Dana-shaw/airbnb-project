@@ -18,10 +18,10 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
-    setShowMenu(!showMenu);
-  };
+  // const toggleMenu = (e) => {
+  //   e.stopPropagation(); // Keep click from bubbling up to document and triggering closeMenu
+  //   setShowMenu(!showMenu);
+  // };
 
   useEffect(() => {
     if (!showMenu) return;

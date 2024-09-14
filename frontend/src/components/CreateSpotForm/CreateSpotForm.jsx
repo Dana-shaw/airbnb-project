@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { createSpot, fetchSpotDetail } from "../../store/spots";
+import { useNavigate } from "react-router-dom";
+import { createSpot } from "../../store/spots";
 import { createSpotImage } from "../../store/images";
 import "./CreateSpotForm.css";
 
@@ -24,7 +24,7 @@ const CreateSpotForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const spotDetail = useSelector((state) => state.spots);
+  // const spotDetail = useSelector((state) => state.spots);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,29 +150,13 @@ const CreateSpotForm = () => {
     // console.log(data);
   };
 
-  const reset = () => {
-    setCountry("");
-    setAddress("");
-    setCity("");
-    setState("");
-    setLat(0);
-    setLng(0);
-    setDescription("");
-    setName("");
-    setPrice(0);
-    setPreviewImageUrl("");
-    setImageUrl1("");
-    setImageUrl2("");
-    setImageUrl3("");
-    setImageUrl4("");
-  };
 
   return (
     <div>
       <h1>Create a new Spot</h1>
       <form onSubmit={handleSubmit}>
         <div className="location-container">
-          <h3>Where's your place located?</h3>
+          <h3>Where&apos;s your place located?</h3>
           <p>
             Guests will only get your exact address once they book a
             reservation.
@@ -269,7 +253,7 @@ const CreateSpotForm = () => {
           <div>
             <h3>Create a title for your spot</h3>
             <p>
-              Catch guests' attention with a spot title that highlights what
+              Catch guests&apos; attention with a spot title that highlights what
               makes your place special.
             </p>
           </div>

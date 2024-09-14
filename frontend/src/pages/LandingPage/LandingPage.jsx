@@ -12,7 +12,7 @@ const LandingPage = () => {
 
     useEffect(() => {
         dispatch(fetchAllSpots())
-    }, [])
+    }, [dispatch])
 
     return (
         <div className='card-container'>

@@ -13,7 +13,7 @@ const ManageSpotsPage = () => {
 
   useEffect(() => {
     dispatch(fetchOwnedSpots()).then(() => setIsLoading(true))
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

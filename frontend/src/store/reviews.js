@@ -19,7 +19,7 @@ const removeReview = (id) => ({
   id,
 });
 
-export const fetchReviews = (spotId) => async (dispatch, getState) => {
+export const fetchReviews = (spotId) => async (dispatch) => {
   const res = await csrfFetch(`/api/spots/${spotId}/reviews`);
 
   if (res.ok) {
@@ -68,7 +68,7 @@ export const deleteReview = (reviewId) => async (dispatch) => {
   });
 
   if (res.ok) {
-    const data = await res.json();
+    // const data = await res.json();
     dispatch(removeReview(reviewId));
   }
 };
