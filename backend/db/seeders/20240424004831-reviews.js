@@ -90,6 +90,6 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'Reviews';
-    await queryInterface.bulkDelete(options, { review: reviews.map(review => review) }, {});
+    await queryInterface.bulkDelete(options, { }, {});
   }
 };

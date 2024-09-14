@@ -218,6 +218,6 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'SpotImages';
-    await queryInterface.bulkDelete(options, { url: spotImages.map(spotImage => spotImage) }, {});
+    await queryInterface.bulkDelete(options, { }, {});
   }
 };
