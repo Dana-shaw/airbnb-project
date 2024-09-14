@@ -32,7 +32,7 @@ const EditSpotForm = () => {
 
     const errors = {};
 
-    const imageRegex = /[^\s]+(.*?).(jpg|jpeg|png|JPG|JPEG|PNG)$/;
+    
 
     if (!country) {
       errors.country = "Country is required";
