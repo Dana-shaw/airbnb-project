@@ -21,13 +21,6 @@ const EditSpotForm = () => {
   const [description, setDescription] = useState(spot[0].description);
   const [name, setName] = useState(spot[0].name);
   const [price, setPrice] = useState(spot[0].price);
-  const [previewImageUrl, setPreviewImageUrl] = useState(
-    spot[0].previewImageUrl
-  );
-  const [imageUrl1, setImageUrl1] = useState(spot[0].imageUrl1);
-  const [imageUrl2, setImageUrl2] = useState(spot[0].imageUrl2);
-  const [imageUrl3, setImageUrl3] = useState(spot[0].imageUrl3);
-  const [imageUrl4, setImageUrl4] = useState(spot[0].imageUrl4);
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   //   const navigate = useNavigate();
