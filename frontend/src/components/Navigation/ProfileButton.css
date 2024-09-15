@@ -1,0 +1,18 @@
+.menu-button{
+    background-color: white;
+    border: solid black 0.15rem;
+    border-radius: 30rem;
+    width: 3.5rem;
+    height: 1.75rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.menu-icon {
+    font-size: 1.15rem;
+}
+
+.user-icon {
+    font-size: 1.15rem;
+}

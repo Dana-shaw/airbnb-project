@@ -17,27 +17,32 @@ function Navigation({ isLoaded }) {
   };
 
   return (
-    <nav>
+    <nav className="nav-container">
       <ul className="navigation">
         <li>
           <div className="logo-container" onClick={home}>
             <HiHomeModern className="logo" />
-            <h1>Getaway</h1>
+            <h1 className="home">Getaway</h1>
           </div>
         </li>
-        {sessionUser ? (
-          <li>
-            <NavLink to="/spots/new">Create a New Spot</NavLink>
-          </li>
-        ) : (
-          ""
-        )}
+        
         {isLoaded && (
-          <li>
-            <div className="button-container">
-              <ProfileButton user={sessionUser} />
+          sessionUser ? (
+            <div className="action-container">
+              <li>
+                <NavLink to="/spots/new">Create a New Spot</NavLink>
+              </li>
+              <li>
+                <ProfileButton user={sessionUser} />
+              </li>
             </div>
-          </li>
+          ) : (
+            <div className="action-container">
+              <li>
+                <ProfileButton user={sessionUser} />
+              </li>
+            </div>
+          )
         )}
       </ul>
     </nav>

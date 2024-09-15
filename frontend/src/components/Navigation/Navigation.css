@@ -7,7 +7,11 @@
     justify-content: space-between;
     align-items: center;
     list-style: none;
-    height: 80px;
+    height: 2.5rem;
+}
+
+.nav-container {
+    border-bottom: solid rgba(128, 128, 128, 0.422) 0.15rem;
 }
 
 .logo-container {
@@ -16,10 +20,27 @@
     align-items: center;
 }
 
-.home {
-    font-size: 23px;
+.logo {
+    font-size: 3rem;
 }
 
-.logo {
-    font-size: 40px;
+.home {
+    font-size: 1.75rem;
+}
+
+.action-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: darkslategrey;
+}
+
+a:visited {
+    text-decoration: none;
+    color: darkslategrey;
 }

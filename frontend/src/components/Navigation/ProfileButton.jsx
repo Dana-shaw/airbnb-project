@@ -7,6 +7,7 @@ import * as sessionActions from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import "./ProfileButton.css";
 
 const ProfileButton = ({ user }) => {
   const dispatch = useDispatch();
@@ -44,9 +45,9 @@ const ProfileButton = ({ user }) => {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <HiOutlineMenu />
-        <HiUserCircle />
+      <button onClick={toggleMenu} className="menu-button">
+        <HiOutlineMenu className="menu-icon"/>
+        <HiUserCircle className="user-icon"/>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
