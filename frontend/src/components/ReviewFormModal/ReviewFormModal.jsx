@@ -5,8 +5,7 @@ import { useModal } from "../../context/Modal";
 import { FaStar } from "react-icons/fa";
 import "./ReviewFormModal.css";
 
-
-function ReviewFormModal({spotId}) {
+function ReviewFormModal({ spotId }) {
   const dispatch = useDispatch();
   const [review, setReview] = useState("");
   const [stars, setStars] = useState(0);
@@ -14,8 +13,8 @@ function ReviewFormModal({spotId}) {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const starsArr = [1, 2, 3, 4, 5];
-  
-  console.log(review.length)
+
+  console.log(review.length);
   const spotReviews = Object.values(useSelector((state) => state.reviews));
   const sessionUser = useSelector((state) => state.session.user);
   // const userReviews = useSelector((state) => state.reviews.userReviews);
@@ -23,17 +22,25 @@ function ReviewFormModal({spotId}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
 
     const payload = {
       review,
       stars,
     };
 
-    console.log(payload)
+    console.log(payload);
 
     const newReview = await dispatch(
       reviewActions.createReview(spotId, payload)
-    ).then(closeModal());
+    )
+      .then(closeModal())
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data?.errors) {
+          setErrors(data.errors);
+        }
+      });
     console.log(newReview);
   };
 
@@ -60,15 +67,16 @@ function ReviewFormModal({spotId}) {
   }, [review, stars, sessionUser.id, spotReviews]);
 
   return (
-    <>
+    <div className="review-modal">
       <h1>How was your stay?</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="review-form">
+        <div className="review-text-container">
           <textarea
             value={review}
             placeholder="Leave your review here..."
             onChange={(e) => setReview(e.target.value)}
             minLength={10}
+            className="text-area"
             required
           ></textarea>
         </div>
@@ -88,25 +96,23 @@ function ReviewFormModal({spotId}) {
                   className="star"
                   style={{
                     color:
-                      currentRating <= (hover || stars)
-                        ? "#ffc107"
-                        : "#e4e5e9",
+                      currentRating <= (hover || stars) ? "#000000" : "#e4e5e9",
                   }}
                   onMouseEnter={() => setHover(currentRating)}
                   onMouseLeave={() => setHover(null)}
                 >
-                 <FaStar />
+                  <FaStar />
                 </span>
               </label>
             );
           })}
           <span>Stars</span>
         </div>
-        <button disabled={Object.values(errors).length} type="submit">
+        <button disabled={Object.values(errors).length} type="submit" className="review-submit-button">
           Submit Your Review
         </button>
       </form>
-    </>
+    </div>
   );
 }
 

@@ -6,3 +6,47 @@ input[type="radio"] {
   font-size: 2rem;
   margin: 5px;
 }
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.review-modal {
+  background-color: white;
+  top: -200px;
+  right: auto;
+  left: -140px;
+  z-index: 100;
+}
+.text-area {
+  background-color: rgb(237, 249, 253);
+  border: 2px solid black;
+  width: 275px;
+  height: 100px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 10px;
+  gap: 10px;
+}
+
+.review-text-container {
+  display: flex;
+  justify-content: center;
+}
+
+.review-submit-button {
+  background-color: rgb(242, 95, 95);
+  color: white;
+  height: 40px;
+  border: 2px solid black;
+}
+
+.review-submit-button:disabled {
+  background-color: white;
+  color: black;
+}
