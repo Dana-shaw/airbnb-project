@@ -16,7 +16,7 @@ const SpotCard = ({ spot }) => {
         <div className="image-container">
           <img className="image" src={spot.previewImage} alt={spot.name} />
         </div>
-        <div>
+        {/* <div className="details-container"> */}
           <div className="spot-location">
             <h3>
               {spot.city}, {spot.state}
@@ -30,7 +30,7 @@ const SpotCard = ({ spot }) => {
             <h4>${spot.price}</h4>
             <p>night</p>
           </div>
-        </div>
+        {/* </div> */}
       </div>
   );
 };

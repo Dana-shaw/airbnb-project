@@ -1,7 +1,16 @@
 .review-container {
-    padding: 10px;
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+margin: 2px;
+padding: 5px;
 }
 
 .review-date {
-    color: grey
+    color: grey;
+    height: 3px;
+}
+
+.review-user {
+    height: 3px;
 }

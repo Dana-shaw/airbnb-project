@@ -23,12 +23,12 @@ const ReviewDetails = ({ review }) => {
   // console.log(sessionUser)
 
   return (
-    <div className="review-container">
+    <>
       {review && (
-        <>
-          <h4>{review.User?.firstName || sessionUser.firstName}</h4>
-          <p>{formattedDate}</p>
-          <p>{review.review}</p>
+        <div className="review-container">
+          <h4 className="review-user">{review.User?.firstName || sessionUser.firstName}</h4>
+          <p className="review-date">{formattedDate}</p>
+          <p className="review">{review.review}</p>
           {sessionUser?.id === review.userId ? (
             <span>
               <DeleteModalButton
@@ -39,9 +39,9 @@ const ReviewDetails = ({ review }) => {
           ) : (
             <></>
           )}
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

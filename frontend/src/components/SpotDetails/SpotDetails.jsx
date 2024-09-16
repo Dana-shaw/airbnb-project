@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { fetchReviews } from "../../store/reviews";
 import ReviewDetails from "../ReviewDetails/ReviewDetails";
@@ -8,7 +8,19 @@ import "./SpotDetails.css";
 import OpenModalButton from "../OpenModalButton";
 import ReviewFormModal from "../ReviewFormModal/ReviewFormModal";
 
-const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country, description, name, numReviews, price, state }) => {
+const SpotDetails = ({
+  Owner,
+  ownerId,
+  SpotImages,
+  avgStarRating,
+  city,
+  country,
+  description,
+  name,
+  numReviews,
+  price,
+  state,
+}) => {
   //   console.log(spot);
   const { spotId } = useParams();
   const dispatch = useDispatch();
@@ -39,10 +51,11 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
 
   const closeMenu = () => setShowMenu(false);
 
-
   const sessionUser = useSelector((state) => state.session.user);
   const reviews = Object.values(useSelector((state) => state.reviews));
-  const userReviews = reviews.filter((review) => review.userId === sessionUser?.id);
+  const userReviews = reviews.filter(
+    (review) => review.userId === sessionUser?.id
+  );
   // console.log(sessionUser)
   // console.log(reviews)
 
@@ -55,6 +68,10 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
       })
       .then(() => setIsLoaded(true));
   }, [dispatch, spotId]);
+
+  const handleReserveButton = (e) => {
+    alert("Feature Coming Soon...");
+  };
 
   return isLoaded ? (
     <div className="page">
@@ -80,55 +97,55 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
         </div>
         <div className="callout-container">
           <div className="callout-text">
-            <p className="callout-price">${price} night</p>
+            <span className="callout-price"><span className="price">${price}</span> night</span>
             <p className="callout-rating">
               <FaStar />
               {avgStarRating
                 ? Math.round(avgStarRating * 100) / 100
                 : "New"}{" "}
               {numReviews ? "・" + numReviews : ""}{" "}
-              {numReviews === 0
-                ? ""
-                : numReviews > 1
-                ? "reviews"
-                : "review"}
+              {numReviews === 0 ? "" : numReviews > 1 ? "reviews" : "review"}
             </p>
           </div>
           <div className="button-container">
-            <button className="button">Reserve</button>
+            <button className="button" onClick={handleReserveButton}>
+              Reserve
+            </button>
           </div>
         </div>
       </div>
       <div>
         <h3 className="spot-rating">
           <FaStar />
-          {avgStarRating
-            ? Math.round(avgStarRating * 100) / 100
-            : "New"}{" "}
+          {avgStarRating ? Math.round(avgStarRating * 100) / 100 : "New"}{" "}
           {numReviews ? "・" + numReviews : ""}{" "}
-          {numReviews === 0
-            ? ""
-            : numReviews > 1
-            ? "reviews"
-            : "review"}
+          {numReviews === 0 ? "" : numReviews > 1 ? "reviews" : "review"}
         </h3>
-        <div>
-          {sessionUser ? (sessionUser.id !== ownerId && noReviews ? (
-            <OpenModalButton
-              itemText="Be the first to post a review!"
-              onButtonClick={closeMenu}
-              modalComponent={<ReviewFormModal spotId={spotId}/>}
-            />
-          ) : sessionUser &&  sessionUser.id !== ownerId && userReviews.length === 0 ? (
-            // userReviews.map((review) => {
-            //   review.spotId !== spotId 
-            // })
-            <OpenModalButton
-              itemText="Post Your Review"
-              onButtonClick={closeMenu}
-              modalComponent={<ReviewFormModal spotId={spotId}/>}
-            />
-          ): <></>) : <></>}
+        <div className="reviews-header">
+          {sessionUser ? (
+            sessionUser.id !== ownerId && noReviews ? (
+              <OpenModalButton
+                itemText="Be the first to post a review!"
+                onButtonClick={closeMenu}
+                modalComponent={<ReviewFormModal spotId={spotId} />}
+              />
+            ) : sessionUser &&
+              sessionUser.id !== ownerId &&
+              userReviews.length === 0 ? (
+              // userReviews.map((review) => {
+              //   review.spotId !== spotId
+              // })
+              <OpenModalButton
+                itemText="Post Your Review"
+                onButtonClick={closeMenu}
+                modalComponent={<ReviewFormModal spotId={spotId} />}
+              />
+            ) : (
+              <></>
+            )
+          ) : (
+            <></>
+          )}
           {/* // {sessionUser &&  sessionUser.id !== ownerId && noReviews ? (
           //   <OpenModalButton
           //     itemText="Be the first to post a review!"
@@ -145,9 +162,11 @@ const SpotDetails = ({ Owner, ownerId, SpotImages, avgStarRating, city, country,
           //     modalComponent={<ReviewFormModal spotId={spotId}/>}
           //   />
           // ): <></>} */}
+          <div className="reviews">
           {reviews.map((review) => (
             <ReviewDetails key={review.id} review={review} />
           ))}
+          </div>
         </div>
       </div>
     </div>

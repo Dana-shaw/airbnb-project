@@ -17,7 +17,7 @@ const LandingPage = () => {
     return (
         <div className='card-container'>
            {spots.map((spot) => (
-                <SpotCard key={spot.id} spot={spot} />
+                <SpotCard key={spot.id} spot={spot} className="spot-card"/>
            ))}
         </div>
     )
