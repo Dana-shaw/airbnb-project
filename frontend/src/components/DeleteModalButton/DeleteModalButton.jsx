@@ -1,4 +1,5 @@
 import { useModal } from '../../context/Modal';
+import './DeleteModalButton.css'
 
 function DeleteModalButton({
   modalComponent, // component to render inside the modal
@@ -15,7 +16,7 @@ function DeleteModalButton({
     if (typeof onButtonClick === "function") onButtonClick();
   };
 
-  return <button onClick={onClick}>{itemText}</button>;
+  return <button onClick={onClick} className='delete-button'>{itemText}</button>;
 }
 
 export default DeleteModalButton;

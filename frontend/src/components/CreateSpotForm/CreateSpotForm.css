@@ -5,3 +5,42 @@
 span.errors-ctn {
     padding-left: 5px;
 }
+
+.page {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title {
+    text-align: center;
+}
+
+.form-container {
+    margin-top: 60px;
+    width: 300px;
+}
+
+.location-container {
+    padding: 3px;
+    border-bottom: 2px solid black;
+}
+
+.description-container {
+    padding: 3px;
+    border-bottom: 2px solid black;
+}
+
+.title-container {
+    padding: 3px;
+    border-bottom: 2px solid black;
+}
+
+.price-container {
+    padding: 3px;
+    border-bottom: 2px solid black;
+}
+
+.images-container {
+    padding: 3px;
+    border-bottom: 2px solid black;
+}

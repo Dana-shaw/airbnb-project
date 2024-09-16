@@ -40,7 +40,7 @@ const ManageSpotCard = ({ spot }) => {
         </div>
       </div>
       <span className="button-container">
-        <button onClick={editSpot}>Update</button>
+        <button onClick={editSpot} className="update-button">Update</button>
         <DeleteModalButton
           itemText="Delete"
           modalComponent={<DeleteSpotModal id={spot.id}/>}

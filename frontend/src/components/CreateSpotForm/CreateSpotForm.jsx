@@ -49,12 +49,12 @@ const CreateSpotForm = () => {
       errors.state = "State is required";
     }
 
-    if (!lat) {
-      errors.lat = "Latitude is required";
+    if (lat && (lat > 90 || lat < -90)) {
+      errors.lat = "Latitude must be within -90 and 90";
     }
 
-    if (!lng) {
-      errors.lng = "Longitude is required";
+    if (lng && (lng > 180 || lat < -180)) {
+      errors.lng = "Longitude must be within -180 and 180";
     }
 
     if (!description || description.length < 30) {
@@ -152,9 +152,9 @@ const CreateSpotForm = () => {
 
 
   return (
-    <div>
-      <h1>Create a new Spot</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="page">
+      <h1 className="title">Create a new Spot</h1>
+      <form onSubmit={handleSubmit} className="form-container">
         <div className="location-container">
           <h3>Where&apos;s your place located?</h3>
           <p>
@@ -216,7 +216,7 @@ const CreateSpotForm = () => {
             <input
               type="text"
               onChange={(e) => setLat(e.target.value)}
-              value={lat > 0 ? lat : ""}
+              value={lat}
               placeholder="Latitude"
             />
             <span> , </span>
@@ -227,7 +227,7 @@ const CreateSpotForm = () => {
             <input
               type="text"
               onChange={(e) => setLng(e.target.value)}
-              value={lng > 0 ? lng : ""}
+              value={lng}
               placeholder="Longitude"
             />
           </div>
@@ -282,7 +282,7 @@ const CreateSpotForm = () => {
             <div className="errors-ctn">{errors.price}</div>
           </div>
         </div>
-        <div className="image-container">
+        <div className="images-container">
           <div>
             <h3>Liven up your spot with photos</h3>
             <p>Submit at least one photo to publish your spot.</p>
@@ -328,7 +328,7 @@ const CreateSpotForm = () => {
             <div className="errors-ctn">{errors.imageUrl4}</div>
           </div>
         </div>
-        <button>Create Spot</button>
+        <button className="submit-button">Create Spot</button>
       </form>
     </div>
   );

@@ -36,3 +36,12 @@
     display: flex;
     justify-content: space-around;
 }
+
+.update-button{
+    margin-left: 20px;
+  background-color: rgb(88, 88, 88);
+  color: white;
+  height: 30px;
+  width: 100px;
+  border: 2px solid black;
+}

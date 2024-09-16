@@ -16,13 +16,14 @@ function DeleteSpotModal({id}) {
   };
 
   return (
-    <>
+    <div className="delete-modal">
       <h1>Confirm Delete</h1>
-      <form onSubmit={handleSubmit}>
-        <button type="submit" onClick={handleSubmit}>Yes (Delete Spot)</button>
-        <button type="submit" onClick={closeModal}>No (Keep Spot)</button>
+      <p className="confirmation-text">Are you sure you want to remove this spot from the listings?</p>
+      <form onSubmit={handleSubmit} className="delete-form">
+        <button type="submit" onClick={handleSubmit} className="delete-spot">Yes (Delete Spot)</button>
+        <button type="submit" onClick={closeModal} className="keep-spot">No (Keep Spot)</button>
       </form>
-    </>
+    </div>
   );
 }
 

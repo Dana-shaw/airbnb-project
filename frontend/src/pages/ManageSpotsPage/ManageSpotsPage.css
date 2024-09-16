@@ -1,0 +1,23 @@
+.manage-page {
+  margin-top: 50px;
+}
+
+.manage-heading {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.manage-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.create-spot-button {
+  margin-left: 20px;
+  background-color: rgb(88, 88, 88);
+  color: white;
+  height: 30px;
+  width: 150px;
+  border: 2px solid black;
+}
