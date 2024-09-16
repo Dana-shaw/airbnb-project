@@ -77,6 +77,18 @@ ul {
   padding-bottom: 2%;
 }
 
+.logout-button {
+  background-color: rgb(83, 83, 83);
+  color: white;
+  border: solid black 2px;
+  border-radius: 30rem;
+  width: 90px;
+  height: 40px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .signup-button {
   text-align: center;
 }

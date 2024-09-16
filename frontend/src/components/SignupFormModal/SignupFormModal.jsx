@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
@@ -17,6 +17,8 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+
     if (password === confirmPassword) {
       setErrors({});
       return dispatch(
@@ -42,47 +44,45 @@ function SignupFormModal() {
     });
   };
 
-  // useEffect(() => {
-  //   const errors = {};
+  useEffect(() => {
+    const errors = {};
 
-  //   if (!firstName) {
-  //     errors.firstName
-  //   }
+    if (!firstName) {
+      errors.firstName = true
+    }
 
-  //   if (!lastName) {
-  //     errors.lastName
-  //   }
+    if (!lastName) {
+      errors.lastName = true
+    }
 
-  //   if (!email) {
-  //     errors.email
-  //   }
+    if (!email) {
+      errors.email = true
+    }
 
-  //   if (!username) {
-  //     errors.username
-  //   }
+    if (!username || username.length < 4) {
+      errors.username = true
+    }
 
-  //   if (!password) {
-  //     errors.email
-  //   }
+    if (!password || password.length < 6) {
+      errors.email = true
+    }
 
-  //   if (!confirmPassword) {
-  //     errors.password
-  //   }
+    if (!confirmPassword) {
+      errors.password = true
+    }
 
-  //   setErrors(errors);
-  // }, [firstName, lastName, email, username, password, confirmPassword]);
+    setErrors(errors);
+  }, [firstName, lastName, email, username, password, confirmPassword]);
 
   return (
     <>
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit} className="form-container">
         <div className="errors-container">
-          {errors.firstName && <p>{errors.firstName}</p>}
-          {errors.lastName && <p>{errors.lastName}</p>}
-          {errors.email && <p>{errors.email}</p>}
-          {errors.username && <p>{errors.username}</p>}
-          {errors.password && <p>{errors.password}</p>}
-          {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+          {errors.email && <p className="errors">{errors.email}</p>}
+          {errors.username && <p className="errors">{errors.username}</p>}
+          {errors.password && <p className="errors">{errors.password}</p>}
+          {errors.confirmPassword && <p className="errors">{errors.confirmPassword}</p>}
         </div>
         <div className="input-container">
           <input

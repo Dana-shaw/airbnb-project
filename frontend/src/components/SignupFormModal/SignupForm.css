@@ -15,5 +15,12 @@
     gap: 0.25rem;
 }
 .submit-button {
-    margin-top: 0.5rem;
+    background-color: rgb(242, 95, 95);
+    color: white;
+    height: 40px;
+    border: 2px solid black;
+}
+
+.errors {
+    color: red;
 }
