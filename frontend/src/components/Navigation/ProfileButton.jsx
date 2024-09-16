@@ -46,36 +46,44 @@ const ProfileButton = ({ user }) => {
   return (
     <>
       <button onClick={toggleMenu} className="menu-button">
-        <HiOutlineMenu className="menu-icon"/>
-        <HiUserCircle className="user-icon"/>
+        <HiOutlineMenu className="menu-icon" />
+        <HiUserCircle className="user-icon" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
-            <li>Hello, {user.firstName}</li>
-            {/* <li>
-              {user.firstName} {user.lastName}
-            </li> */}
-            <li>{user.email}</li>
-            <Link to={"/spots/current"}>Manage Spots</Link>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
-          </>
+          <div className="dropdown-content">
+            <div className="user-info">
+              <li>Hello, {user.firstName}</li>
+              <li>{user.email}</li>
+            </div>
+            <div className="manage-spots">
+              <Link to={"/spots/current"} className="manage-link" color="black">
+                Manage Spots
+              </Link>
+            </div>
+            <div className="logout-button-container">
+              <li>
+                <button onClick={logout} className="logout-button">
+                  Log Out
+                </button>
+              </li>
+            </div>
+          </div>
         ) : (
-          <>
-            <OpenModalButton
-              itemText="Log In"
-              onButtonClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-
+          <div className="dropdown-content">
             <OpenModalButton
               itemText="Sign Up"
               onButtonClick={closeMenu}
               modalComponent={<SignupFormModal />}
+              className="signup-button"
             />
-          </>
+            <OpenModalButton
+              itemText="Log In"
+              onButtonClick={closeMenu}
+              modalComponent={<LoginFormModal />}
+              className="login-button"
+            />
+          </div>
         )}
       </ul>
     </>
