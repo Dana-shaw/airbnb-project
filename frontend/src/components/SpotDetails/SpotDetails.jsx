@@ -70,7 +70,10 @@ const SpotDetails = ({
   }, [dispatch, spotId]);
 
   const handleReserveButton = (e) => {
-    alert("Feature Coming Soon...");
+    if(e){
+
+      alert("Feature Coming Soon...");
+    }
   };
 
   return isLoaded ? (
